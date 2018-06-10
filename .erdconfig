@@ -1,0 +1,11 @@
+attributes:
+  - content
+  - foreign_key
+  - inheritance
+filename: schema
+filetype: pdf
+indirect: true
+inheritance: false
+markup: true
+notation: bachman
+sort: true

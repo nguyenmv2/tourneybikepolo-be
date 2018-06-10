@@ -19,6 +19,7 @@ end
 
 group :development do
   gem "listen", ">= 3.0.5", "< 3.2"
+  gem "rails-erd"
   gem "rubocop"
   gem "rubocop-github"
   gem "spring"
