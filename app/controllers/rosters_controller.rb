@@ -4,9 +4,9 @@ class RostersController < ApplicationController
   before_action :set_roster, only: [:show, :update, :destroy]
 
   def index
-    @rosters = Roster.all
+    rosters = Roster.all
 
-    render json: @rosters
+    render json: rosters
   end
 
   def show
@@ -14,12 +14,12 @@ class RostersController < ApplicationController
   end
 
   def create
-    @roster = Roster.new(roster_params)
+    roster = Roster.new(roster_params)
 
-    if @roster.save
-      render json: @roster, status: :created, location: @roster
+    if roster.save
+      render json: roster, status: :created, location: roster
     else
-      render json: @roster.errors, status: :unprocessable_entity
+      render json: roster.errors, status: :unprocessable_entity
     end
   end
 

@@ -4,9 +4,9 @@ class EnrollmentsController < ApplicationController
   before_action :set_enrollment, only: [:show, :update, :destroy]
 
   def index
-    @enrollments = Enrollment.all
+    enrollments = Enrollment.all
 
-    render json: @enrollments
+    render json: enrollments
   end
 
   def show
@@ -14,12 +14,12 @@ class EnrollmentsController < ApplicationController
   end
 
   def create
-    @enrollment = Enrollment.new(enrollment_params)
+    enrollment = Enrollment.new(enrollment_params)
 
-    if @enrollment.save
-      render json: @enrollment, status: :created, location: @enrollment
+    if enrollment.save
+      render json: enrollment, status: :created, location: enrollment
     else
-      render json: @enrollment.errors, status: :unprocessable_entity
+      render json: enrollment.errors, status: :unprocessable_entity
     end
   end
 

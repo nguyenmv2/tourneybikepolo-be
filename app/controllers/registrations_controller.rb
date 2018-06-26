@@ -4,9 +4,9 @@ class RegistrationsController < ApplicationController
   before_action :set_registration, only: [:show, :update, :destroy]
 
   def index
-    @registrations = Registration.all
+    registrations = Registration.all
 
-    render json: @registrations
+    render json: registrations
   end
 
   def show
@@ -14,12 +14,12 @@ class RegistrationsController < ApplicationController
   end
 
   def create
-    @registration = Registration.new(registration_params)
+    registration = Registration.new(registration_params)
 
-    if @registration.save
-      render json: @registration, status: :created, location: @registration
+    if registration.save
+      render json: registration, status: :created, location: registration
     else
-      render json: @registration.errors, status: :unprocessable_entity
+      render json: registration.errors, status: :unprocessable_entity
     end
   end
 

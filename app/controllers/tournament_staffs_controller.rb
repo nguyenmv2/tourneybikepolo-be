@@ -4,9 +4,9 @@ class TournamentStaffsController < ApplicationController
   before_action :set_tournament_staff, only: [:show, :update, :destroy]
 
   def index
-    @tournament_staffs = TournamentStaff.all
+    tournament_staffs = TournamentStaff.all
 
-    render json: @tournament_staffs
+    render json: tournament_staffs
   end
 
   def show
@@ -14,12 +14,12 @@ class TournamentStaffsController < ApplicationController
   end
 
   def create
-    @tournament_staff = TournamentStaff.new(tournament_staff_params)
+    tournament_staff = TournamentStaff.new(tournament_staff_params)
 
-    if @tournament_staff.save
-      render json: @tournament_staff, status: :created, location: @tournament_staff
+    if tournament_staff.save
+      render json: tournament_staff, status: :created, location: tournament_staff
     else
-      render json: @tournament_staff.errors, status: :unprocessable_entity
+      render json: tournament_staff.errors, status: :unprocessable_entity
     end
   end
 

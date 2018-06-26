@@ -4,9 +4,9 @@ class TeamsController < ApplicationController
   before_action :set_team, only: [:show, :update, :destroy]
 
   def index
-    @teams = Team.all
+    teams = Team.all
 
-    render json: @teams
+    render json: teams
   end
 
   def show
@@ -14,12 +14,12 @@ class TeamsController < ApplicationController
   end
 
   def create
-    @team = Team.new(team_params)
+    team = Team.new(team_params)
 
-    if @team.save
-      render json: @team, status: :created, location: @team
+    if team.save
+      render json: team, status: :created, location: team
     else
-      render json: @team.errors, status: :unprocessable_entity
+      render json: team.errors, status: :unprocessable_entity
     end
   end
 
