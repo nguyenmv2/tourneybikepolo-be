@@ -13,7 +13,8 @@ gem "rails", "~> 5.2.0"
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
-  gem "factory_bot"
+  gem "factory_bot_rails"
+  gem "faker"
   gem "pry-rails"
   gem "rspec-rails"
   gem "shoulda"
