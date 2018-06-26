@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_10_234735) do
+ActiveRecord::Schema.define(version: 2018_06_26_013909) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,13 +37,13 @@ ActiveRecord::Schema.define(version: 2018_06_10_234735) do
   end
 
   create_table "rosters", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "player_id"
     t.bigint "team_id"
     t.integer "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_rosters_on_player_id"
     t.index ["team_id"], name: "index_rosters_on_team_id"
-    t.index ["user_id"], name: "index_rosters_on_user_id"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 2018_06_10_234735) do
   add_foreign_key "registrations", "teams"
   add_foreign_key "registrations", "users"
   add_foreign_key "rosters", "teams"
-  add_foreign_key "rosters", "users"
+  add_foreign_key "rosters", "users", column: "player_id"
   add_foreign_key "tournament_staffs", "tournaments"
   add_foreign_key "tournament_staffs", "users"
 end
