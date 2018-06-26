@@ -2,21 +2,27 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= Rails.application.credentials.development.dig(:db, :host) %>
-  port: <%= Rails.application.credentials.development.dig(:db, :port) %>
-  username: <%= Rails.application.credentials.development.dig(:db, :username) %>
-  password: <%= Rails.application.credentials.development.dig(:db, :password) %>
 
 development:
   <<: *default
-  database: tourneybikepolo-be_development
+  database: <%= ENV.fetch('PGDATABASE', 'tourneybikepolo_development') %>
+  username: tourneybikepolo
+  password:
+  host: <%= ENV.fetch('PGHOST', '127.0.0.1') %>
+  port: <%= ENV.fetch('PGPORT', '5432') %>
+  schema_search_path: myapp,sharedapp,public
+  min_messages: notice
 
 test:
   <<: *default
-  database: tourneybikepolo-be_test
+  database: tourneybikepolo_test
+  username: tourneybikepolo
+  password:
+  host: <%= ENV.fetch('PGHOST', '127.0.0.1') %>
+  port: <%= ENV.fetch('PGPORT', '5432') %>
 
 production:
   <<: *default
-  database: tourneybikepolo-be_production
-  username: tourneybikepolo-be
+  database: tourneybikepolo_production
+  username: tourneybikepolo
   password: <%= ENV['TOURNEYBIKEPOLO-BE_DATABASE_PASSWORD'] %>
