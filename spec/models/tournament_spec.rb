@@ -1,5 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Tournament, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should have_many(:tournament_staffs) }
+  it { should have_many(:users).through(:tournament_staffs) }
+  it { should have_many(:enrollments) }
+  it { should have_many(:teams).through(:enrollments) }
 end
