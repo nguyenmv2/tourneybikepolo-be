@@ -39,6 +39,9 @@ class TournamentsController < ApplicationController
 
   def set_tournament
     @tournament = Tournament.find(params[:id])
+  rescue
+    error = { errors: { message: "Not Found" } }.to_json
+    render json: error, status: :not_found unless @tournament
   end
 
   def tournament_params

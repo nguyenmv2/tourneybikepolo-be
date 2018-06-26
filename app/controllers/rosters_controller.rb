@@ -39,6 +39,9 @@ class RostersController < ApplicationController
 
   def set_roster
     @roster = Roster.find(params[:id])
+  rescue
+    error = { errors: { message: "Not Found" } }.to_json
+    render json: error, status: :not_found unless @roster
   end
 
   def roster_params

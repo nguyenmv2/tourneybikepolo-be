@@ -39,6 +39,9 @@ class TournamentStaffsController < ApplicationController
 
   def set_tournament_staff
     @tournament_staff = TournamentStaff.find(params[:id])
+  rescue
+    error = { errors: { message: "Not Found" } }.to_json
+    render json: error, status: :not_found unless @tournament_staff
   end
 
   def tournament_staff_params

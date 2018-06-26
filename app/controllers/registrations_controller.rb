@@ -39,6 +39,9 @@ class RegistrationsController < ApplicationController
 
   def set_registration
     @registration = Registration.find(params[:id])
+  rescue
+    error = { errors: { message: "Not Found" } }.to_json
+    render json: error, status: :not_found unless @registration
   end
 
   def registration_params
