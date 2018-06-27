@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApiHelpers
   def json_response
     JSON.parse(response.body)
@@ -7,7 +9,7 @@ module ApiHelpers
     JSON.parse(response.body, object_class: OpenStruct)
   end
 
-  def authenticated_header(user=nil)
+  def authenticated_header(user = nil)
     user = create(:user) unless user
     token = Knock::AuthToken.new(payload: { sub: user.id }).token
     { "Authorization": "Bearer #{token}" }
