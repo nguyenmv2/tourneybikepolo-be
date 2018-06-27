@@ -40,9 +40,6 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
-  rescue
-    error = { errors: { message: "Not Found" } }.to_json
-    render json: error, status: :not_found unless @user
   end
 
   def user_params

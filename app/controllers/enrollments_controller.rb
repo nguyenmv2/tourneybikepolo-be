@@ -22,9 +22,6 @@ class EnrollmentsController < ApplicationController
 
   def set_enrollment
     @enrollment = Enrollment.find(params[:id])
-  rescue
-    error = { errors: { message: "Not Found" } }.to_json
-    render json: error, status: :not_found unless @enrollment
   end
 
   def enrollment_params

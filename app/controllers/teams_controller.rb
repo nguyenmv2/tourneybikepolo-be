@@ -34,9 +34,6 @@ class TeamsController < ApplicationController
 
   def set_team
     @team = Team.find(params[:id])
-  rescue
-    error = { errors: { message: "Not Found" } }.to_json
-    render json: error, status: :not_found unless @team
   end
 
   def team_params
