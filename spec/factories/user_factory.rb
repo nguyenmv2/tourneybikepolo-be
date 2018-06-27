@@ -1,10 +1,10 @@
 FactoryBot.define do
-  factory :user do
-    first "Test"
-    last "User"
+  factory :user, aliases: [:player] do
+    first Faker::Name.first_name
+    last Faker::Name.last_name
     sequence(:email) do |n|
-      "person_#{Faker::Lorem.word.downcase}_#{n}@example.com"
+      Faker::Internet.safe_email
     end
-    password "Taco123"
+    password Faker::Internet.password(8)
   end
 end

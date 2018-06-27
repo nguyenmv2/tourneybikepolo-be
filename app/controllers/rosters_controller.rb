@@ -36,6 +36,6 @@ class RostersController < ApplicationController
   end
 
   def roster_params
-    params.require(:roster).permit(:user_id, :team_id, :role)
+    params.require(:roster).permit(:player_id, :team_id, :role)
   end
 end
