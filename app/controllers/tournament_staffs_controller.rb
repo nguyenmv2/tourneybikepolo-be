@@ -3,12 +3,6 @@
 class TournamentStaffsController < ApplicationController
   before_action :set_tournament_staff, only: [:show, :update, :destroy]
 
-  def index
-    tournament_staffs = TournamentStaff.all
-
-    render json: tournament_staffs
-  end
-
   def show
     render json: @tournament_staff
   end

@@ -3,12 +3,6 @@
 class TeamsController < ApplicationController
   before_action :set_team, only: [:show, :update, :destroy]
 
-  def index
-    teams = Team.all
-
-    render json: teams
-  end
-
   def show
     render json: @team
   end

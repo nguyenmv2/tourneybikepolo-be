@@ -1,17 +1,7 @@
 # frozen_string_literal: true
 
 class EnrollmentsController < ApplicationController
-  before_action :set_enrollment, only: [:show, :update, :destroy]
-
-  def index
-    enrollments = Enrollment.all
-
-    render json: enrollments
-  end
-
-  def show
-    render json: @enrollment
-  end
+  before_action :set_enrollment, only: [:destroy]
 
   def create
     enrollment = Enrollment.new(enrollment_params)
@@ -20,14 +10,6 @@ class EnrollmentsController < ApplicationController
       render json: enrollment, status: :created, location: enrollment
     else
       render json: enrollment.errors, status: :unprocessable_entity
-    end
-  end
-
-  def update
-    if @enrollment.update(enrollment_params)
-      render json: @enrollment
-    else
-      render json: @enrollment.errors, status: :unprocessable_entity
     end
   end
 

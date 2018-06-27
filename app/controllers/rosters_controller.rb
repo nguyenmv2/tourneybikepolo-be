@@ -1,17 +1,7 @@
 # frozen_string_literal: true
 
 class RostersController < ApplicationController
-  before_action :set_roster, only: [:show, :update, :destroy]
-
-  def index
-    rosters = Roster.all
-
-    render json: rosters
-  end
-
-  def show
-    render json: @roster
-  end
+  before_action :set_roster, only: [:update, :destroy]
 
   def create
     roster = Roster.new(roster_params)

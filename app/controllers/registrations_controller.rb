@@ -3,12 +3,6 @@
 class RegistrationsController < ApplicationController
   before_action :set_registration, only: [:show, :update, :destroy]
 
-  def index
-    registrations = Registration.all
-
-    render json: registrations
-  end
-
   def show
     render json: @registration
   end
