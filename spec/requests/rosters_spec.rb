@@ -4,28 +4,22 @@ require "rails_helper"
 
 RSpec.describe "Rosters", type: :request do
   describe "POST /rosters" do
-    it "returns a successful 201 created response" do
-      team = create(:team)
-      user = create(:user)
-      successful_params = { team_id: team.id, player_id: user.id }
+    let(:team) { create(:team) }
+    let(:user) { create(:user) }
+    let(:team) { create(:team) }
+    let(:successful_params) { { team_id: team.id, player_id: user.id, role: 1 } }
 
+    before do
       post rosters_path(team, user),
         headers: authenticated_header,
         params: { roster: successful_params }
+    end
 
+    it "returns a successful 201 created response" do
       expect(response).to have_http_status(201)
     end
 
     it "successfully creates an enrollment with the params sent" do
-      team = create(:team)
-      user = create(:user)
-      successful_params = { team_id: team.id, player_id: user.id, role: 1 }
-
-      post rosters_path(team, user),
-        headers: authenticated_header,
-        params: { roster: successful_params }
-
-
       expect(json_response_struct.team_id).to eq(team.id)
       expect(json_response_struct.player_id).to eq(user.id)
       expect(json_response_struct.role).to eq(1)
@@ -33,24 +27,23 @@ RSpec.describe "Rosters", type: :request do
   end
 
   describe "PATCH /rosters/:id" do
-    it "returns a successful 200 response" do
-      roster = create :roster, role: 1
-      successful_params = { role: 2 }
+    context "when correct params are sent" do
+      let(:roster) { create(:roster, role: 1) }
+      let(:successful_params) { { role: 2 } }
 
-      patch roster_path(roster),
-        headers: authenticated_header,
-        params: { roster: successful_params }
+      it "returns a successful 200 response" do
+        patch roster_path(roster),
+          headers: authenticated_header,
+          params: { roster: successful_params }
 
-      expect(response).to have_http_status(200)
-    end
+        expect(response).to have_http_status(200)
+      end
 
-    it "successfully updates the roster with the params sent" do
-      roster = create :roster, role: 1
-      successful_params = { role: 2 }
-
-      expect {
-        patch roster_path(roster), headers: authenticated_header, params: { roster: successful_params }
-      }.to change { roster.reload.role }.from(1).to(2)
+      it "successfully updates the roster with the params sent" do
+        expect {
+          patch roster_path(roster), headers: authenticated_header, params: { roster: successful_params }
+        }.to change { roster.reload.role }.from(1).to(2)
+      end
     end
 
     it "returns a not found 404 response" do

@@ -4,82 +4,83 @@ require "rails_helper"
 
 RSpec.describe "Users", type: :request do
   describe "GET /users" do
-    it "returns a successful 200 response" do
+    before do
+      create_list(:user, 5)
       get users_path
+    end
 
+    it "returns a successful 200 response" do
       expect(response).to have_http_status(200)
     end
 
-    it "returns all the students" do
-      create_list(:user, 5)
-      get users_path
-
+    it "returns all the users" do
       expect(json_response_struct.length).to eq(5)
     end
   end
 
   describe "GET /users/:id" do
-    it "returns a successful 200 response" do
-      user = build_stubbed :user
-      allow(User).to receive(:find).and_return(user)
+    context "when user is found" do
+      let(:user) { build_stubbed(:user) }
 
-      get user_path(user)
+      before do
+        allow(User).to receive(:find).and_return(user)
+        get user_path(user)
+      end
 
-      expect(response).to have_http_status(200)
+      it "returns a successful 200 response" do
+        expect(response).to have_http_status(200)
+      end
+
+      it "returns the user" do
+        expect(json_response_struct.id).to eq(user.id)
+      end
     end
 
-    it "returns a 404 response" do
-      user = build_stubbed :user
+    context "when user is not found" do
+      it "returns a 404 response" do
+        get user_path(id: 1)
 
-      get user_path(user)
-
-      expect(response).to have_http_status(404)
-    end
-
-    it "returns the user" do
-      user = build_stubbed :user
-      allow(User).to receive(:find).and_return(user)
-
-      get user_path(user)
-
-      expect(json_response_struct.id).to eq(user.id)
+        expect(response).to have_http_status(404)
+      end
     end
   end
 
   describe "POST /users" do
-    it "returns a successful 201 created response" do
-      successful_params = { first: "Testy", last: "McTestsAlot", email: "test@test.com", password: "taco123"}
+    context "when correct params are sent" do
+      let(:successful_params) { { first: "Testy", last: "McTestsAlot", email: "testy@test.com", password: "taco123"} }
 
-      post users_path, params: { user: successful_params }
+      before do
+        post users_path, params: { user: successful_params }
+      end
 
-      expect(response).to have_http_status(201)
+      it "returns a successful 201 created response" do
+        expect(response).to have_http_status(201)
+      end
+
+      it "successfully creates a user with the params sent" do
+        expect(json_response_struct.first).to eq("Testy")
+        expect(json_response_struct.last).to eq("McTestsAlot")
+        expect(json_response_struct.email).to eq("testy@test.com")
+      end
     end
 
-    it "successfully creates a user with the params sent" do
-      successful_params = { first: "Testy", last: "McTestsAlot", email: "testy@test.com", password: "taco123"}
+    context "when wrong params are sent" do
+      it "returns a unsuccessful 422 response" do
+        unsuccessful_params = { first: "Testy", last: "McTestsAlot", password: "taco123"}
+        post users_path, params: { user: unsuccessful_params }
 
-      post users_path, params: { user: successful_params }
-
-      expect(json_response_struct.first).to eq("Testy")
-      expect(json_response_struct.last).to eq("McTestsAlot")
-      expect(json_response_struct.email).to eq("testy@test.com")
-    end
-
-    it "returns a successful 422 response" do
-      unsuccessful_params = { first: "Testy", last: "McTestsAlot", password: "taco123"}
-      post users_path, params: { user: unsuccessful_params }
-
-      expect(response).to have_http_status(422)
-      expect(json_response_struct.email).to eq(["can't be blank"])
+        expect(response).to have_http_status(422)
+        expect(json_response_struct.email).to eq(["can't be blank"])
+      end
     end
   end
 
   describe "PATCH /user/:id" do
     context "when params are valid" do
-      it "returns a successful 200 response" do
-        user = create :user, email: "old_email@test.com"
-        successful_params = { email: "new_email@test.com" }
+      let(:user) { create(:user, email: "old_email@test.com") }
+      let(:successful_params) { { email: "new_email@test.com" } }
 
+      it "returns a successful 200 response" do
         patch user_path(user),
           headers: authenticated_header(user),
           params: { user: successful_params }
@@ -88,9 +89,6 @@ RSpec.describe "Users", type: :request do
       end
 
       it "successfully updates the user with the params sent" do
-        user = create :user, email: "old_email@test.com"
-        successful_params = { email: "new_email@test.com" }
-
         expect {
           patch user_path(user), headers: authenticated_header(user), params: { user: successful_params }
         }.to change { user.reload.email }.from("old_email@test.com").to("new_email@test.com")
@@ -99,7 +97,6 @@ RSpec.describe "Users", type: :request do
 
     context "when params are not valid" do
       it "returns a successful 422 response" do
-
         user = create :user
         create :user, email: "old_email@test.com"
 
@@ -117,8 +114,6 @@ RSpec.describe "Users", type: :request do
       end
 
       it "returns an unauthorized 401 response" do
-        user = build_stubbed :user
-
         patch user_path(id: 1)
 
         expect(response).to have_http_status(401)
@@ -147,7 +142,6 @@ RSpec.describe "Users", type: :request do
 
     context "when params are not valid" do
       it "returns a successful 422 response" do
-
         user = create :user
         create :user, email: "old_email@test.com"
 
@@ -160,7 +154,7 @@ RSpec.describe "Users", type: :request do
         expect(json_response_struct.email).to eq(["has already been taken"])
       end
 
-      it "returns a 404 response" do
+      it "returns a 401 response" do
         user = build_stubbed :user
 
         patch user_path(user), headers: authenticated_header(user)

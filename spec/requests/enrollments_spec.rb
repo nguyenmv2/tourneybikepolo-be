@@ -4,11 +4,11 @@ require "rails_helper"
 
 RSpec.describe "Enrollments", type: :request do
   describe "POST /enrollements" do
-    it "returns a successful 201 created response" do
-      team = create(:team)
-      tournament = create(:tournament)
-      successful_params = { team_id: team.id, tournament_id: tournament.id }
+    let(:team) { create(:team) }
+    let(:tournament) { create(:tournament) }
+    let(:successful_params) { { team_id: team.id, tournament_id: tournament.id } }
 
+    it "returns a successful 201 created response" do
       post enrollments_path(team, tournament),
         headers: authenticated_header,
         params: { enrollment: successful_params }
@@ -17,10 +17,6 @@ RSpec.describe "Enrollments", type: :request do
     end
 
     it "successfully creates an enrollment with the params sent" do
-      team = create(:team)
-      tournament = create(:tournament)
-      successful_params = { team_id: team.id, tournament_id: tournament.id }
-
       post enrollments_path(team, tournament),
         headers: authenticated_header,
         params: { enrollment: successful_params }
