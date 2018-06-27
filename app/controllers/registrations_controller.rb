@@ -39,6 +39,8 @@ class RegistrationsController < ApplicationController
   end
 
   def registration_params
-    params.require(:registration).permit(:team_id, :user_id, :enrollment_id, :status)
+    params.require(:registration).permit(
+      :team_id, :user_id, :enrollment_id, :status
+    )
   end
 end
