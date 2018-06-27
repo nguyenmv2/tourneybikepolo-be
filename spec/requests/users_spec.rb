@@ -80,7 +80,9 @@ RSpec.describe "Users", type: :request do
         user = create :user, email: "old_email@test.com"
         successful_params = { email: "new_email@test.com" }
 
-        patch user_path(user), params: { user: successful_params }
+        patch user_path(user),
+          headers: authenticated_header(user),
+          params: { user: successful_params }
 
         expect(response).to have_http_status(200)
       end
@@ -89,10 +91,9 @@ RSpec.describe "Users", type: :request do
         user = create :user, email: "old_email@test.com"
         successful_params = { email: "new_email@test.com" }
 
-        expect { patch user_path(user), params: { user: successful_params } }
-          .to change { user.reload.email }
-          .from("old_email@test.com")
-          .to("new_email@test.com")
+        expect {
+          patch user_path(user), headers: authenticated_header(user), params: { user: successful_params }
+        }.to change { user.reload.email }.from("old_email@test.com").to("new_email@test.com")
       end
     end
 
@@ -103,18 +104,24 @@ RSpec.describe "Users", type: :request do
         create :user, email: "old_email@test.com"
 
         unsuccessful_params = { email: "old_email@test.com" }
-        patch user_path(user), params: { user: unsuccessful_params }
+        patch user_path(user), headers: authenticated_header(user), params: { user: unsuccessful_params }
 
         expect(response).to have_http_status(422)
         expect(json_response_struct.email).to eq(["has already been taken"])
       end
 
-      it "returns a 404 response" do
-        user = build_stubbed :user
-
-        patch user_path(user)
+      it "returns a not found 404 response" do
+        get user_path(id: 1)
 
         expect(response).to have_http_status(404)
+      end
+
+      it "returns an unauthorized 401 response" do
+        user = build_stubbed :user
+
+        patch user_path(id: 1)
+
+        expect(response).to have_http_status(401)
       end
     end
   end
@@ -123,14 +130,18 @@ RSpec.describe "Users", type: :request do
     context "when params are valid" do
       it "returns a successful 204 response" do
         user = create(:user)
-        delete user_path(user)
+        delete user_path(user),
+          headers: authenticated_header(user)
 
         expect(response).to have_http_status(204)
       end
 
       it "successfully creates a user with the params sent" do
         user = create(:user)
-        expect { delete user_path(user) }.to change { User.count }.from(1).to(0)
+
+        expect {
+          delete user_path(user), headers: authenticated_header(user)
+        }.to change { User.count }.from(1).to(0)
       end
     end
 
@@ -141,7 +152,9 @@ RSpec.describe "Users", type: :request do
         create :user, email: "old_email@test.com"
 
         unsuccessful_params = { email: "old_email@test.com" }
-        patch user_path(user), params: { user: unsuccessful_params }
+        patch user_path(user),
+          headers: authenticated_header(user),
+          params: { user: unsuccessful_params }
 
         expect(response).to have_http_status(422)
         expect(json_response_struct.email).to eq(["has already been taken"])
@@ -150,9 +163,9 @@ RSpec.describe "Users", type: :request do
       it "returns a 404 response" do
         user = build_stubbed :user
 
-        patch user_path(user)
+        patch user_path(user), headers: authenticated_header(user)
 
-        expect(response).to have_http_status(404)
+        expect(response).to have_http_status(401)
       end
     end
   end
