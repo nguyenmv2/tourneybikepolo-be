@@ -7,7 +7,8 @@ module ApiHelpers
     JSON.parse(response.body, object_class: OpenStruct)
   end
 
-  def authenticated_header(user)
+  def authenticated_header(user=nil)
+    user = create(:user) unless user
     token = Knock::AuthToken.new(payload: { sub: user.id }).token
     { "Authorization": "Bearer #{token}" }
   end
