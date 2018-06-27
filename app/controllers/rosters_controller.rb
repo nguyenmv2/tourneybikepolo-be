@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class RostersController < ApplicationController
+  before_action :authenticate_user
   before_action :set_roster, only: [:update, :destroy]
 
   def create

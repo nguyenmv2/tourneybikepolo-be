@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class TournamentsController < ApplicationController
+  before_action :authenticate_user, only: [:create, :update, :destroy]
   before_action :set_tournament, only: [:show, :update, :destroy]
 
   def index

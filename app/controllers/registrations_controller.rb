@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class RegistrationsController < ApplicationController
+  before_action :authenticate_user
   before_action :set_registration, only: [:show, :update, :destroy]
 
   def show

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class TournamentStaffsController < ApplicationController
+  before_action :authenticate_user, only: [:create, :update, :destroy]
   before_action :set_tournament_staff, only: [:show, :update, :destroy]
 
   def show
