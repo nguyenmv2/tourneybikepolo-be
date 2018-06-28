@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TournamentsController < ApplicationController
   before_action :set_tournament, only: [:show, :update, :destroy]
 

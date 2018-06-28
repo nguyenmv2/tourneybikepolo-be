@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Knock.setup do |config|
 
   ## Expiration claim
@@ -28,7 +30,7 @@ Knock.setup do |config|
   ## Configure the algorithm used to encode the token
   ##
   ## Default:
-  config.token_signature_algorithm = 'HS256'
+  config.token_signature_algorithm = "HS256"
 
   ## Signature key
   ## -------------

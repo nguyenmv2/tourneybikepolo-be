@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Tournament < ApplicationRecord
   has_many :tournament_staffs
   has_many :users, through: :tournament_staffs
