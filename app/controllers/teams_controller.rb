@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TeamsController < ApplicationController
   before_action :set_team, only: [:show, :update, :destroy]
 

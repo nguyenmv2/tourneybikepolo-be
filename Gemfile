@@ -15,8 +15,8 @@ group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "factory_bot"
   gem "pry-rails"
-  gem "shoulda"
   gem "rspec-rails"
+  gem "shoulda"
 end
 
 group :development do

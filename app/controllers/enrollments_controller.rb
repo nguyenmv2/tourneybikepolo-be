@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EnrollmentsController < ApplicationController
   before_action :set_enrollment, only: [:show, :update, :destroy]
 
