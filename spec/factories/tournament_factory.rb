@@ -9,5 +9,6 @@ FactoryBot.define do
     registration_end_date 5.days.from_now
     description Faker::Lorem.paragraph
     team_cap Faker::Number.between(6, 30)
+    fee Money.new(1500)
   end
 end
