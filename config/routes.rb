@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   resources :rosters, except: [:index, :show, :new, :edit]
   resources :teams, except: [:index, :new, :edit]
   resources :users, except: [:new, :edit]
+  resources :charges, only: :create
 end
