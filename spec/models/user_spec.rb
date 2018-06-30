@@ -11,4 +11,12 @@ describe User, type: :model do
 
   it { should validate_presence_of(:email) }
   it { should validate_uniqueness_of(:email) }
+
+  describe "#payment_metadata" do
+    it "returns a hash of user attributes" do
+      u = build_stubbed(:user)
+
+      expect(u.payment_metadata).to eq({ user_id: u.id, first: u.first, last: u.last, phone: u.phone })
+    end
+  end
 end
