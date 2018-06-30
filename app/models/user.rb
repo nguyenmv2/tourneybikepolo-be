@@ -10,4 +10,8 @@ class User < ApplicationRecord
   has_many :registrations
 
   validates :email, presence: true, uniqueness: true
+
+  def payment_metadata
+    { user_id: id, first: first, last: last, phone: phone }
+  end
 end
