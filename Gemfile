@@ -20,6 +20,7 @@ group :development, :test do
   gem "pry-rails"
   gem "rspec-rails"
   gem "shoulda"
+  gem "stripe-ruby-mock", "~> 2.5.4", require: "stripe_mock"
 end
 
 group :development do
