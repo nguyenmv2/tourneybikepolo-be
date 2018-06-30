@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Users", type: :request do
+describe "Users", type: :request do
   describe "GET /users" do
     before do
       create_list(:user, 5)

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Registrations", type: :request do
+describe "Registrations", type: :request do
   describe "GET /registrations/:id" do
     context "when registration is found" do
       let(:registration) { build_stubbed(:registration) }

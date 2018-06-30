@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Team, type: :model do
+describe Team, type: :model do
   it { should have_many(:rosters) }
   it { should have_many(:players).through(:rosters) }
   it { should have_many(:enrollments) }

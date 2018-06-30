@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "TournamentStaffs", type: :request do
+describe "TournamentStaffs", type: :request do
   describe "GET /tournament_staffs/:id" do
     context "when staff is found" do
       let(:staff) { build_stubbed(:tournament_staff) }

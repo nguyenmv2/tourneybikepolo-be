@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe TournamentStaffsController, type: :routing do
+describe TournamentStaffsController, type: :routing do
   describe "routing" do
     it "routes to #show" do
       expect(get: "/tournament_staffs/1").to route_to("tournament_staffs#show", id: "1")

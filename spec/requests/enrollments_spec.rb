@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Enrollments", type: :request do
+describe "Enrollments", type: :request do
   describe "POST /enrollements" do
     let(:team) { create(:team) }
     let(:tournament) { create(:tournament) }

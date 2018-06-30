@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Teams", type: :request do
+describe "Teams", type: :request do
   describe "GET /teams/:id" do
     context "when team is found" do
       let(:team) { build_stubbed(:team) }

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Rosters", type: :request do
+describe "Rosters", type: :request do
   describe "POST /rosters" do
     let(:team) { create(:team) }
     let(:user) { create(:user) }

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe RostersController, type: :routing do
+describe RostersController, type: :routing do
   describe "routing" do
     it "routes to #create" do
       expect(post: "/rosters").to route_to("rosters#create")

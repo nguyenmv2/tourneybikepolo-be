@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe EnrollmentsController, type: :routing do
+describe EnrollmentsController, type: :routing do
   describe "routing" do
     it "routes to #create" do
       expect(post: "/enrollments").to route_to("enrollments#create")
