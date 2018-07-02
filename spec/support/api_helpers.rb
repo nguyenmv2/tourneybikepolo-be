@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rails_helper"
+
 module ApiHelpers
   def json_response
     JSON.parse(response.body)
