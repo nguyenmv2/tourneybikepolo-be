@@ -11,6 +11,15 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
 
+  # Public: Builds a hash of user data to attach to a Stripe::Customer object.
+  #
+  # Examples
+  #
+  #   user = User.find(1)
+  #   user.payment_metadata
+  #   # => { user_id: 1, first: "Billy", last: "Bob", phone: "999-999-9999" }
+  #
+  # Returns a hash of user data.
   def payment_metadata
     { user_id: id, first: first, last: last, phone: phone }
   end
