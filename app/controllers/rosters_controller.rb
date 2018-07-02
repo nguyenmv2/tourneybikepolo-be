@@ -1,32 +1,19 @@
 # frozen_string_literal: true
 
 class RostersController < ApplicationController
-  before_action :set_roster, only: [:show, :update, :destroy]
+  before_action :authenticate_user
+  before_action :set_roster, only: [:update, :destroy]
 
-  # GET /rosters
-  def index
-    @rosters = Roster.all
-
-    render json: @rosters
-  end
-
-  # GET /rosters/1
-  def show
-    render json: @roster
-  end
-
-  # POST /rosters
   def create
-    @roster = Roster.new(roster_params)
+    roster = Roster.new(roster_params)
 
-    if @roster.save
-      render json: @roster, status: :created, location: @roster
+    if roster.save
+      render json: roster, status: :created, location: roster
     else
-      render json: @roster.errors, status: :unprocessable_entity
+      render json: roster.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /rosters/1
   def update
     if @roster.update(roster_params)
       render json: @roster
@@ -35,19 +22,17 @@ class RostersController < ApplicationController
     end
   end
 
-  # DELETE /rosters/1
   def destroy
     @roster.destroy
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_roster
-      @roster = Roster.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def roster_params
-      params.require(:roster).permit(:user_id, :team_id, :role)
-    end
+  def set_roster
+    @roster = Roster.find(params[:id])
+  end
+
+  def roster_params
+    params.require(:roster).permit(:player_id, :team_id, :role)
+  end
 end

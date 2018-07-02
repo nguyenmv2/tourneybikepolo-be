@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  post "user_token" => "user_token#create"
-  resources :registrations
-  resources :tournament_staffs
-  resources :enrollments
-  resources :tournaments
-  resources :rosters
-  resources :teams
-  resources :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :user_token, only: [:create]
+  resources :registrations, except: [:index, :new, :edit]
+  resources :tournament_staffs, except: [:index, :new, :edit]
+  resources :enrollments, only: [:create, :destroy]
+  resources :tournaments, except: [:new, :edit]
+  resources :rosters, except: [:index, :show, :new, :edit]
+  resources :teams, except: [:index, :new, :edit]
+  resources :users, except: [:new, :edit]
 end

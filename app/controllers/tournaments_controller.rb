@@ -1,21 +1,19 @@
 # frozen_string_literal: true
 
 class TournamentsController < ApplicationController
+  before_action :authenticate_user, only: [:create, :update, :destroy]
   before_action :set_tournament, only: [:show, :update, :destroy]
 
-  # GET /tournaments
   def index
     @tournaments = Tournament.all
 
     render json: @tournaments
   end
 
-  # GET /tournaments/1
   def show
     render json: @tournament
   end
 
-  # POST /tournaments
   def create
     @tournament = Tournament.new(tournament_params)
 
@@ -26,7 +24,6 @@ class TournamentsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /tournaments/1
   def update
     if @tournament.update(tournament_params)
       render json: @tournament
@@ -35,19 +32,20 @@ class TournamentsController < ApplicationController
     end
   end
 
-  # DELETE /tournaments/1
   def destroy
     @tournament.destroy
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_tournament
-      @tournament = Tournament.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def tournament_params
-      params.require(:tournament).permit(:name, :start_date, :end_date, :registration_start_date, :registration_end_date, :description, :team_cap)
-    end
+  def set_tournament
+    @tournament = Tournament.find(params[:id])
+  end
+
+  def tournament_params
+    params.require(:tournament).permit(
+      :name, :start_date, :end_date, :registration_start_date,
+      :registration_end_date, :description, :team_cap
+    )
+  end
 end

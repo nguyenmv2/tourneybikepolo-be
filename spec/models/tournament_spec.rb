@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Tournament, type: :model do
+describe Tournament, type: :model do
   it { should have_many(:tournament_staffs) }
   it { should have_many(:users).through(:tournament_staffs) }
   it { should have_many(:enrollments) }
