@@ -1,0 +1,26 @@
+env:
+  matrix:
+  - DB=pgsql
+language: ruby
+rvm:
+- 2.5.1
+services:
+- postgresql
+before_install: gem install bundler -v 1.16.1
+notifications:
+- false
+before_script:
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+  > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- "./cc-test-reporter before-build"
+- cp config/database.yml.travis config/database.yml
+- psql -c 'create database travis_ci_test;' -U postgres
+scripts:
+- RAILS_ENV=test bundle exec rake db:migrate --trace
+- bundle exec rake db:test:prepare
+- bundle exec rspec spec
+after_script:
+- ./cc-test-reporter format-coverage -t simplecov
+- ./cc-test-reporter sum-coverage coverage/codeclimate.json
+- if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter upload-coverage; fi

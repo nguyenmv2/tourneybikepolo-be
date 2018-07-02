@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 10
+  host: <%= ENV.fetch('PGHOST', '127.0.0.1') %>
+  port: <%= ENV.fetch('PGPORT', '5432') %>
+  username: <%= ENV.fetch('PGUSER', 'postgres') %>
+  password: <%= ENV.fetch('PGPASSWORD', '') %>
+
+development:
+  <<: *default
+  database: tourneybikepolo_rb_development
+
+test:
+  <<: *default
+  database: travis_ci_test
+
+production:
+  <<: *default
+  database: tourneybikepolo_rb_production
