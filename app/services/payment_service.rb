@@ -25,18 +25,40 @@ class PaymentService
   #     cvc: "314" }
   #   user = User.find(1)
   #   tournament = Tournament.find(1)
-
+  #
   #   service = PaymentService.new(card, user, tournament)
   #   service.create
   #   # => Stripe::Charge
   #
   # Returns a Stripe::Charge object with a charge id and json attributes.
   def charge
-    Stripe::Charge.create(
+    charge = Stripe::Charge.create(
       customer: customer_id,
       amount: tournament.fee.cents,
       description: "Registration fee for #{tournament.name}",
       currency: tournament.fee.currency
     )
+  rescue Stripe::CardError
+    update_status("failed")
+    raise Stripe::CardError
+  ensure
+    update_status(charge.status) if charge&.status
+  end
+
+  private
+
+  # Private: Updates the associated registration status.
+  #
+  # status - A string typically indicating the return value of the
+  #          Stripe::Charge#status attribute.
+  #
+  # Examples
+  #
+  #   update_status("failed")
+  #   # => true
+  #
+  # Returns a boolean indicating if the record commit was successful or not.
+  def update_status(status)
+    registration.update(status: status)
   end
 end
