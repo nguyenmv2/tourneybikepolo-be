@@ -5,9 +5,12 @@ Rails.application.routes.draw do
   resources :registrations, except: [:index, :new, :edit]
   resources :tournament_staffs, except: [:index, :new, :edit]
   resources :enrollments, only: [:create, :destroy]
-  resources :tournaments, except: [:new, :edit]
+  resources :tournaments, except: [:new, :edit] do
+    resources :teams do
+      resources :charges, only: :create
+    end
+  end
   resources :rosters, except: [:index, :show, :new, :edit]
   resources :teams, except: [:index, :new, :edit]
   resources :users, except: [:new, :edit]
-  resources :charges, only: :create
 end
