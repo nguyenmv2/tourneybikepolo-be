@@ -38,7 +38,7 @@ describe "Registrations", type: :request do
       let(:team) { create(:team) }
       let(:user) { create(:user) }
       let(:enrollment) { create(:enrollment) }
-      let(:successful_params) { { team_id: team.id, user_id: user.id, enrollment_id: enrollment.id, status: 1 } }
+      let(:successful_params) { { team_id: team.id, user_id: user.id, enrollment_id: enrollment.id, status: "succeeded" } }
 
       before do
         post registrations_path,
@@ -59,7 +59,7 @@ describe "Registrations", type: :request do
 
     context "when wrong params are sent" do
       it "returns a successful 422 response" do
-        unsuccessful_params = { team_id: 1, user_id: 1, enrollment_id: 1, status: 1 }
+        unsuccessful_params = { team_id: 1, user_id: 1, enrollment_id: 1, status: "failed" }
         post registrations_path,
           headers: authenticated_header,
           params: { registration: unsuccessful_params }
@@ -73,8 +73,8 @@ describe "Registrations", type: :request do
   end
 
   describe "PATCH /registration/:id" do
-    let(:registration) { create(:registration, status: 2) }
-    let(:successful_params) { { status: 1 } }
+    let(:registration) { create(:registration, status: "pending") }
+    let(:successful_params) { { status: "succeeded" } }
 
     it "returns a successful 200 response" do
       patch registration_path(registration),
@@ -87,7 +87,7 @@ describe "Registrations", type: :request do
     it "successfully updates the registration with the params sent" do
       expect {
         patch registration_path(registration), headers: authenticated_header, params: { registration: successful_params }
-      }.to change { registration.reload.status }.from(2).to(1)
+      }.to change { registration.reload.status }.from("pending").to("succeeded")
     end
   end
 
