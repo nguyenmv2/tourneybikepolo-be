@@ -23,3 +23,6 @@
 schema.pdf
 
 /config/secrets.yml
+
+# Ignore simplecov reports
+coverage/*
