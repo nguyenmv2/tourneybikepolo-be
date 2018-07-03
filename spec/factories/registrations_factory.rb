@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :registration do
-    status Faker::Number.between(1, 3)
+    status "pending"
     team
     user
     enrollment
