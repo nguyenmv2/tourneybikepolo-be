@@ -9,20 +9,41 @@ describe "Rosters", type: :request do
     let(:team) { create(:team) }
     let(:successful_params) { { team_id: team.id, player_id: user.id, role: 1 } }
 
-    before do
-      post rosters_path(team, user),
-        headers: authenticated_header,
-        params: { roster: successful_params }
+    context "when roster is created" do
+      before do
+        post rosters_path(team, user),
+          headers: authenticated_header,
+          params: { roster: successful_params }
+      end
+
+      it "returns a successful 201 created response" do
+        expect(response).to have_http_status(201)
+      end
+
+      it "successfully creates an enrollment with the params sent" do
+        expect(json_response_struct.team_id).to eq(team.id)
+        expect(json_response_struct.player_id).to eq(user.id)
+        expect(json_response_struct.role).to eq(1)
+      end
     end
 
-    it "returns a successful 201 created response" do
-      expect(response).to have_http_status(201)
-    end
+    context "when roster fails to create" do
+      let(:unsuccessful_params) { { role: 1 } }
 
-    it "successfully creates an enrollment with the params sent" do
-      expect(json_response_struct.team_id).to eq(team.id)
-      expect(json_response_struct.player_id).to eq(user.id)
-      expect(json_response_struct.role).to eq(1)
+      before do
+        post rosters_path(team, user),
+          headers: authenticated_header,
+          params: { roster: unsuccessful_params }
+      end
+
+      it "returns an unprocessable entity 422" do
+        expect(response).to have_http_status(422)
+      end
+
+      it "renders an error response" do
+        expect(json_response_struct.player).to eq(["must exist"])
+        expect(json_response_struct.team).to eq(["must exist"])
+      end
     end
   end
 
@@ -46,16 +67,29 @@ describe "Rosters", type: :request do
       end
     end
 
-    it "returns a not found 404 response" do
-      delete roster_path(id: 1), headers: authenticated_header
+    context "when there are errors" do
+      it "returns a not found 404 response" do
+        patch roster_path(id: 1), headers: authenticated_header
 
-      expect(response).to have_http_status(404)
-    end
+        expect(response).to have_http_status(404)
+      end
 
-    it "returns an unauthorized 401 response" do
-      patch roster_path(id: 1)
+      it "renders an error response" do
+        unsuccessful_params = { team_id: 0 }
+        roster = create(:roster)
 
-      expect(response).to have_http_status(401)
+        patch roster_path(id: roster.id),
+          headers: authenticated_header,
+          params: { roster: unsuccessful_params }
+
+        expect(json_response_struct.team).to eq(["must exist"])
+      end
+
+      it "returns an unauthorized 401 response" do
+        patch roster_path(id: 1)
+
+        expect(response).to have_http_status(401)
+      end
     end
   end
 
