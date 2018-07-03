@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class PaymentService
-  attr_reader :customer_id, :tournament
+  attr_reader :customer_id, :tournament, :registration
 
   # Public: Initialize a Customer object.
   #
   # card - A hash of credit card information.
-  # user - A User object
-  # tournament - A Tournament object
-  def initialize(card, user, tournament)
-    @customer_id = Customer.create(card, user)
-    @tournament = tournament
+  # objects - A hash containting a single User, Tournament and Team record.
+  def initialize(card, objects)
+    @customer_id = Customer.create(card, objects[:user])
+    @tournament = objects[:tournament]
+    @registration = Registration.fetch(**objects)
   end
 
   # Public: Creates a new stripe charge for the amount stored on the tournament
