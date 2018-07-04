@@ -6,4 +6,6 @@ class Team < ApplicationRecord
   has_many :enrollments
   has_many :tournaments, through: :enrollments
   has_many :registrations
+
+  validates :name, presence: true
 end
