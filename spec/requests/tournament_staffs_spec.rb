@@ -34,22 +34,45 @@ describe "TournamentStaffs", type: :request do
   describe "POST /tournament_staffs" do
     let(:user) { create(:user) }
     let(:tournament) { create(:tournament) }
-    let(:successful_params) { { user_id: user.id, tournament_id: tournament.id, role: 1 } }
 
-    before do
-      post tournament_staffs_path,
-        headers: authenticated_header,
-        params: { tournament_staff: successful_params }
+    context "when correct params are sent" do
+      let(:successful_params) { { user_id: user.id, tournament_id: tournament.id, role: 1 } }
+
+      before do
+        post tournament_staffs_path,
+          headers: authenticated_header,
+          params: { tournament_staff: successful_params }
+      end
+
+      it "returns a successful 201 created response" do
+        expect(response).to have_http_status(201)
+      end
+
+      it "successfully creates a tournament_staff with the params sent" do
+        expect(json_response_struct.user_id).to eq(user.id)
+        expect(json_response_struct.tournament_id).to eq(tournament.id)
+        expect(json_response_struct.role).to eq(1)
+      end
     end
 
-    it "returns a successful 201 created response" do
-      expect(response).to have_http_status(201)
-    end
+    context "when wrong params are sent" do
+      let(:team) { create(:team) }
 
-    it "successfully creates a tournament_staff with the params sent" do
-      expect(json_response_struct.user_id).to eq(user.id)
-      expect(json_response_struct.tournament_id).to eq(tournament.id)
-      expect(json_response_struct.role).to eq(1)
+      let(:unsuccessful_params) { { name: nil } }
+
+      before do
+        patch team_path(team),
+          headers: authenticated_header,
+          params: { team: unsuccessful_params }
+      end
+
+      it "returns an unprocessable entity 422" do
+        expect(response).to have_http_status(422)
+      end
+
+      it "renders an error response" do
+        expect(json_response_struct.name).to eq(["can't be blank"])
+      end
     end
   end
 

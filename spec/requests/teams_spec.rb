@@ -43,15 +43,35 @@ describe "Teams", type: :request do
         params: { team: successful_params }
     end
 
-    it "returns a successful 201 created response" do
-      expect(response).to have_http_status(201)
+    context "when a team is created" do
+      it "returns a successful 201 created response" do
+        expect(response).to have_http_status(201)
+      end
+
+      it "successfully creates a team with the params sent" do
+        expect(json_response_struct.name).to eq("New Team")
+        expect(json_response_struct.description).to eq("New Description")
+        expect(json_response_struct.logo).to eq(logo)
+        expect(json_response_struct.player_count).to eq(5)
+      end
     end
 
-    it "successfully creates a team with the params sent" do
-      expect(json_response_struct.name).to eq("New Team")
-      expect(json_response_struct.description).to eq("New Description")
-      expect(json_response_struct.logo).to eq(logo)
-      expect(json_response_struct.player_count).to eq(5)
+    context "when a team fails to create" do
+      let(:unsuccessful_params) { { description: "Test Description" } }
+
+      before do
+        post teams_path,
+          headers: authenticated_header,
+          params: { team: unsuccessful_params }
+      end
+
+      it "returns an unprocessable entity 422" do
+        expect(response).to have_http_status(422)
+      end
+
+      it "renders an error response" do
+        expect(json_response_struct.name).to eq(["can't be blank"])
+      end
     end
   end
 
@@ -75,17 +95,30 @@ describe "Teams", type: :request do
       end
     end
 
-    context "when wrong params are sent" do
-      it "returns a not found 404 response" do
-        get team_path(id: 1)
-
-        expect(response).to have_http_status(404)
-      end
-
+    context "when no header is sent" do
       it "returns an unauthorized 401 response" do
         patch team_path(id: 1)
 
         expect(response).to have_http_status(401)
+      end
+    end
+
+    context "when wrong params are sent" do
+      let(:team) { create(:team) }
+      let(:unsuccessful_params) { { name: nil } }
+
+      before do
+        patch team_path(team),
+          headers: authenticated_header,
+          params: { team: unsuccessful_params }
+      end
+
+      it "returns an unprocessable entity 422" do
+        expect(response).to have_http_status(422)
+      end
+
+      it "renders an error response" do
+        expect(json_response_struct.name).to eq(["can't be blank"])
       end
     end
   end
