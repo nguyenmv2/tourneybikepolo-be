@@ -30,4 +30,20 @@ describe Match, type: :model do
       expect(m.score).to eq(expected_result)
     end
   end
+
+  describe "#increment_score" do
+    let(:m) { create(:match, team_one_score: 0) }
+
+    it "increases the passed team's score by one" do
+      expect { m.increment_score(m.team_one) }.to change { m.team_one_score }.from(0).to(1)
+    end
+  end
+
+  describe "#decrement_score" do
+    let(:m) { create(:match, team_one_score: 1) }
+
+    it "increases the passed team's score by one" do
+      expect { m.decrement_score(m.team_one) }.to change { m.team_one_score }.from(1).to(0)
+    end
+  end
 end
