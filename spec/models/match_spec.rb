@@ -17,4 +17,17 @@ describe Match, type: :model do
       expect(m.teams).to match_array([team_one, team_two])
     end
   end
+
+  describe "#score" do
+    let(:team_one) { build_stubbed(:team) }
+    let(:team_two) { build_stubbed(:team) }
+    let(:m) { build_stubbed(:match, team_one: team_one, team_two: team_two) }
+
+    it "returns a hash with team ids for keys and for scores values" do
+      allow(Team).to receive(:where).and_return([team_one, team_two])
+      expected_result = { m.team_one.name => m.team_one_score,
+                          m.team_two.name => m.team_two_score }
+      expect(m.score).to eq(expected_result)
+    end
+  end
 end

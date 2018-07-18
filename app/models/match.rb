@@ -8,4 +8,8 @@ class Match < ApplicationRecord
   def teams
     Team.where(id: [team_one_id, team_two_id])
   end
+
+  def score
+    Hash[teams.map(&:name).zip([team_one_score, team_two_score])]
+  end
 end
