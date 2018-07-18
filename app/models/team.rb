@@ -10,4 +10,8 @@ class Team < ApplicationRecord
   has_many :away_matches, class_name: "Match", foreign_key: "team_two_id"
 
   validates :name, presence: true
+
+  def matches
+    Match.where("team_one_id = ? OR team_two_id = ?", self.id, self.id)
+  end
 end
