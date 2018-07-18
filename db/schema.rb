@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_04_045646) do
+ActiveRecord::Schema.define(version: 2018_07_17_185249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,19 @@ ActiveRecord::Schema.define(version: 2018_07_04_045646) do
     t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_enrollments_on_team_id"
     t.index ["tournament_id"], name: "index_enrollments_on_tournament_id"
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.integer "team_one_id", null: false
+    t.integer "team_two_id", null: false
+    t.integer "team_one_score", default: 0, null: false
+    t.integer "team_two_score", default: 0, null: false
+    t.bigint "tournament_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_one_id"], name: "index_matches_on_team_one_id"
+    t.index ["team_two_id"], name: "index_matches_on_team_two_id"
+    t.index ["tournament_id"], name: "index_matches_on_tournament_id"
   end
 
   create_table "registrations", force: :cascade do |t|
@@ -97,6 +110,7 @@ ActiveRecord::Schema.define(version: 2018_07_04_045646) do
 
   add_foreign_key "enrollments", "teams"
   add_foreign_key "enrollments", "tournaments"
+  add_foreign_key "matches", "tournaments"
   add_foreign_key "registrations", "enrollments"
   add_foreign_key "registrations", "teams"
   add_foreign_key "registrations", "users"
