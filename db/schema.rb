@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_17_185249) do
+ActiveRecord::Schema.define(version: 2018_07_20_203523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,15 @@ ActiveRecord::Schema.define(version: 2018_07_17_185249) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "timers", force: :cascade do |t|
+    t.integer "duration", null: false
+    t.string "jid"
+    t.datetime "paused_with"
+    t.datetime "expires_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tournament_staffs", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "tournament_id"
@@ -116,6 +125,7 @@ ActiveRecord::Schema.define(version: 2018_07_17_185249) do
   add_foreign_key "registrations", "users"
   add_foreign_key "rosters", "teams"
   add_foreign_key "rosters", "users", column: "player_id"
+  add_foreign_key "timers", "matches"
   add_foreign_key "tournament_staffs", "tournaments"
   add_foreign_key "tournament_staffs", "users"
 end
