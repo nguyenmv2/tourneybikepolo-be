@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_20_203523) do
+ActiveRecord::Schema.define(version: 2018_07_20_211051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,14 +68,8 @@ ActiveRecord::Schema.define(version: 2018_07_20_203523) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "timers", force: :cascade do |t|
-    t.integer "duration", null: false
-    t.string "jid"
-    t.datetime "paused_with"
-    t.datetime "expires_at", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+# Could not dump table "timers" because of following StandardError
+#   Unknown type 'timers_status' for column 'status'
 
   create_table "tournament_staffs", force: :cascade do |t|
     t.bigint "user_id"
