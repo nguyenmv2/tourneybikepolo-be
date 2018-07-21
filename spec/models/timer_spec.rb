@@ -3,5 +3,15 @@
 require "rails_helper"
 
 RSpec.describe Timer, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should belong_to(:match).dependent(:destroy) }
+  it { should validate_presence_of(:duration) }
+
+  it do
+    should define_enum_for(:status).with(
+      "in_progress"=>"in_progress",
+      "paused"=>"paused",
+      "expired"=>"expired",
+      "canceled"=>"canceled"
+    )
+  end
 end
