@@ -3,6 +3,8 @@
 class TimerWorker
   include Sidekiq::Worker
 
-  def perform(*args)
+  def perform(id)
+    timer = Timer.find(id)
+    timer.update(status: "expired")
   end
 end
