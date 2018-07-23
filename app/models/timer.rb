@@ -30,4 +30,8 @@ class Timer < ApplicationRecord
   def stop
     update(paused_with: nil, expires_at: Time.now, status: "canceled", jid: nil)
   end
+
+  def truly_expired?
+    in_progress? && expires_at <= Time.now
+  end
 end
