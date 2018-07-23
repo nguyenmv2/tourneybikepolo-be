@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Match < ApplicationRecord
+  include Timeable
   belongs_to :tournament
   belongs_to :team_one, class_name: "Team", foreign_key: "team_one_id"
   belongs_to :team_two, class_name: "Team", foreign_key: "team_two_id"
@@ -21,6 +22,8 @@ class Match < ApplicationRecord
   def decrement_score(team)
     update_score(team.id, "-")
   end
+
+  delegate :start, :pause, :resume, :stop, to: :timer
 
   private
 
