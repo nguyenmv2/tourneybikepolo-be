@@ -9,7 +9,7 @@ module Timeable
   end
 
   def add_timer
-    Timer.create(match_id: id)
+    Timer.create(match_id: id, expires_at: duration.seconds.from_now)
   end
 
   def set_duration

@@ -10,7 +10,7 @@ class Timer < ApplicationRecord
 
   def start
     jid = TimerWorker.perform_in(expires_at, id)
-    update(jid: jid, expires_at: duration.seconds.from_now, status: "in_progress")
+    update(jid: jid, status: "in_progress")
   end
 
   def pause
