@@ -1,15 +1,12 @@
 # frozen_string_literal: true
 
 class Timer < ApplicationRecord
-  enum status: Hash[TimerStatus::STATUSES.zip(TimerStatus::STATUSES)]
+  STATUSES = %w(pending in_progress paused expired canceled).freeze
+  enum status: Hash[STATUSES.zip(STATUSES)].symbolize_keys
 
   belongs_to :match, dependent: :destroy
 
   delegate :duration, to: :match
-
-  def status
-    @status ||= TimerStatus.new(read_attribute(:status))
-  end
 
   def start
     jid = TimerWorker.perform_in(expires_at, id)
