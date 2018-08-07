@@ -8,6 +8,8 @@ class Match < ApplicationRecord
   belongs_to :team_two, class_name: "Team", foreign_key: "team_two_id"
   has_one :timer, dependent: :destroy
 
+  validates :duration, presence: true
+
   # Public: Queries for the two team associated with a match.
   #
   # Examples

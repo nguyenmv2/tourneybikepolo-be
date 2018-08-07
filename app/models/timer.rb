@@ -5,7 +5,7 @@ class Timer < ApplicationRecord
 
   belongs_to :match, dependent: :destroy
 
-  validates :duration, presence: true
+  delegate :duration, to: :match
 
   def status
     @status ||= TimerStatus.new(read_attribute(:status))
@@ -13,7 +13,7 @@ class Timer < ApplicationRecord
 
   def start
     jid = TimerWorker.perform_in(expires_at, id)
-    update(jid: jid, status: "in_progress")
+    update(jid: jid, expires_at: duration.seconds.from_now, status: "in_progress")
   end
 
   def pause

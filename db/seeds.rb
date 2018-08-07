@@ -48,7 +48,7 @@ tournament_count = 5.times do
   # Seed Matches
   games.count.times do |i|
     game = games[i]
-    tournament.matches.create(team_one_id: game[1].id, team_two_id: game[2].id)
+    tournament.matches.create(team_one_id: game[1].id, team_two_id: game[2].id, duration: 12.minutes.to_i)
   end
 end
 
