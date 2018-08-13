@@ -26,3 +26,6 @@ schema.pdf
 
 # Ignore simplecov reports
 coverage/*
+
+# Ignore ctags directory
+/tags
