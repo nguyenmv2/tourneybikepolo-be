@@ -32,18 +32,34 @@ describe Match, type: :model do
   end
 
   describe "#increment_score" do
-    let(:m) { create(:match, team_one_score: 0) }
+    let(:m) { create(:match, team_one_score: 0, team_two_score: 0) }
 
-    it "increases the passed team's score by one" do
-      expect { m.increment_score(m.team_one) }.to change { m.team_one_score }.from(0).to(1)
+    context "when team_one scores" do
+      it "increases their score by one" do
+        expect { m.increment_score(m.team_one) }.to change { m.team_one_score }.from(0).to(1)
+      end
+    end
+
+    context "when team_two scores" do
+      it "increases their score by one" do
+        expect { m.increment_score(m.team_two) }.to change { m.team_two_score }.from(0).to(1)
+      end
     end
   end
 
   describe "#decrement_score" do
-    let(:m) { create(:match, team_one_score: 1) }
+    let(:m) { create(:match, team_one_score: 1, team_two_score: 1) }
 
-    it "increases the passed team's score by one" do
-      expect { m.decrement_score(m.team_one) }.to change { m.team_one_score }.from(1).to(0)
+    context "when team_one has a point taken away" do
+      it "decreases their score by one" do
+        expect { m.decrement_score(m.team_one) }.to change { m.team_one_score }.from(1).to(0)
+      end
+    end
+
+    context "when team_two has a point taken away" do
+      it "decreases their score by one" do
+        expect { m.decrement_score(m.team_two) }.to change { m.team_two_score }.from(1).to(0)
+      end
     end
   end
 end
