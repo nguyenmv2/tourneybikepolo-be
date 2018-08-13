@@ -82,4 +82,38 @@ RSpec.describe Timer, type: :model do
       end
     end
   end
+
+  describe "#truly_expired?" do
+    context "when timer is in progress and expired" do
+      it "returns true" do
+        timer = build_stubbed(:timer, status: "in_progress", expires_at: 5.seconds.ago)
+
+        expect(timer.truly_expired?).to eq(true)
+      end
+    end
+
+    context "when timer is in progress and not expired" do
+      it "returns false" do
+        timer = build_stubbed(:timer, status: "in_progress", expires_at: 5.seconds.from_now)
+
+        expect(timer.truly_expired?).to eq(false)
+      end
+    end
+
+    context "when timer is not in progress and expired" do
+      it "returns false" do
+        timer = build_stubbed(:timer, status: "paused", expires_at: 5.seconds.ago)
+
+        expect(timer.truly_expired?).to eq(false)
+      end
+    end
+
+    context "when timer is not in progress and not expired" do
+      it "returns false" do
+        timer = build_stubbed(:timer, status: "paused", expires_at: 5.seconds.from_now)
+
+        expect(timer.truly_expired?).to eq(false)
+      end
+    end
+  end
 end
