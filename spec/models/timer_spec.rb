@@ -17,6 +17,21 @@ RSpec.describe Timer, type: :model do
 
   subject { create(:match, duration: 5.seconds.to_i).timer }
 
+  it "should function as a timer successfully throughout the game" do
+    freeze_time
+    subject.start
+    travel_to 2.seconds.from_now
+    subject.pause
+    expect(subject.paused_with.round).to eq(3.seconds)
+    subject.resume
+    travel_to 2.seconds.from_now
+    subject.pause
+    expect(subject.paused_with.round).to eq(1.second)
+    subject.stop
+    expect(subject.paused_with).to eq(nil)
+    expect(TimerWorker.jobs.size).to eq(2)
+  end
+
   describe "#duration" do
     it "should return the associated match duration" do
       expect(subject.duration).to eq(5)
