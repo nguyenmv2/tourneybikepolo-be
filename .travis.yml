@@ -17,8 +17,8 @@ before_script:
 - cp config/database.yml.travis config/database.yml
 - psql -c 'create database travis_ci_test;' -U postgres
 scripts:
-- RAILS_ENV=test bundle exec rake db:migrate --trace
-- bundle exec rake db:test:prepare
+- bundle exec rake db:structure:load
+- bundle exec rake db:abort_if_pending_migrations
 - bundle exec rspec spec
 after_script:
 - ./cc-test-reporter format-coverage -t simplecov
