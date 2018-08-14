@@ -36,7 +36,10 @@ class Match < ApplicationRecord
   #
   # Returns a hash containing each team's name and score.
   def score
-    Hash[teams.map(&:name).zip([team_one_score, team_two_score])]
+    {
+      team_one.name => team_one_score,
+      team_two.name => team_two_score
+    }
   end
 
   # Public: Adds one point to a team's score.
