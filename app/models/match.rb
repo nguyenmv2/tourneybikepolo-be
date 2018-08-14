@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class Match < ApplicationRecord
-  include Timeable
-
   belongs_to :tournament
   belongs_to :team_one, class_name: "Team", foreign_key: "team_one_id"
   belongs_to :team_two, class_name: "Team", foreign_key: "team_two_id"
   has_one :timer, dependent: :destroy
+
+  after_create :add_timer
+  after_update :set_duration, if: :duration_changed?
 
   validates :duration, presence: true
 
@@ -80,5 +81,13 @@ class Match < ApplicationRecord
     elsif team_two_id == team_id
       update(team_two_score: team_two_score.send(adjustment.to_sym, 1))
     end
+  end
+
+  def add_timer
+    Timer.create(match_id: id, expires_at: duration.seconds.from_now)
+  end
+
+  def set_duration
+    timer.update(expires_at: duration.seconds.from_now)
   end
 end
