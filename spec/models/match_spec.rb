@@ -6,7 +6,7 @@ describe Match, type: :model do
   it { should belong_to(:tournament) }
   it { should belong_to(:team_one).class_name("Team").with_foreign_key("team_one_id") }
   it { should belong_to(:team_two).class_name("Team").with_foreign_key("team_two_id") }
-
+  it { should have_one(:timer).dependent(:destroy) }
 
   describe "#teams" do
     let(:team_one) { create(:team) }
@@ -59,6 +59,24 @@ describe Match, type: :model do
     context "when team_two has a point taken away" do
       it "decreases their score by one" do
         expect { m.decrement_score(m.team_two) }.to change { m.team_two_score }.from(1).to(0)
+      end
+    end
+  end
+
+  describe "#add_timer" do
+    it "creates an associated timer record" do
+      expect { create(:match) }.to change { Timer.count }.by(1)
+    end
+  end
+
+  describe "#set_duration" do
+    it "updates the associated timer's expires_at column" do
+      m = create(:match)
+      allow(m).to receive(:duration_changed?).and_return(true)
+
+      freeze_time do
+        expect { m.update!(duration: 12.seconds.to_i) }
+          .to change { m.timer.expires_at }.to(12.seconds.from_now)
       end
     end
   end
