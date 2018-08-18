@@ -8,6 +8,14 @@ describe Match, type: :model do
   it { should belong_to(:team_two).class_name("Team").with_foreign_key("team_two_id") }
   it { should have_one(:timer).dependent(:destroy) }
 
+  describe "#status" do
+    let(:m) { create(:match) }
+
+    it "should return the associated timer status" do
+      expect(m.status).to eq("pending")
+    end
+  end
+
   describe "#teams" do
     let(:team_one) { create(:team) }
     let(:team_two) { create(:team) }

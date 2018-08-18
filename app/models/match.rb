@@ -11,6 +11,8 @@ class Match < ApplicationRecord
 
   validates :duration, presence: true
 
+  delegate :status, to: :timer
+
   # Public: Queries for the two team associated with a match.
   #
   # Examples
