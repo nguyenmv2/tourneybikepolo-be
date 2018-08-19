@@ -11,6 +11,7 @@ gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
 gem "rack-cors", require: "rack/cors"
 gem "rails", "~> 5.2.0"
+gem "sidekiq"
 gem "stripe", "~> 3.17.0"
 
 group :development, :test do
