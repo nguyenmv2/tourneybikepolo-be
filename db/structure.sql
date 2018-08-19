@@ -9,6 +9,18 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: rounds_format_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.rounds_format_type AS ENUM (
+    'round_robin',
+    'swiss_rounds',
+    'single_elimination',
+    'double_elimination'
+);
+
+
+--
 -- Name: timers_status; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -170,6 +182,39 @@ CREATE SEQUENCE public.rosters_id_seq
 --
 
 ALTER SEQUENCE public.rosters_id_seq OWNED BY public.rosters.id;
+
+
+--
+-- Name: rounds; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.rounds (
+    id bigint NOT NULL,
+    name character varying,
+    tournament_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    format_type public.rounds_format_type NOT NULL
+);
+
+
+--
+-- Name: rounds_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.rounds_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: rounds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.rounds_id_seq OWNED BY public.rounds.id;
 
 
 --
@@ -392,6 +437,13 @@ ALTER TABLE ONLY public.rosters ALTER COLUMN id SET DEFAULT nextval('public.rost
 
 
 --
+-- Name: rounds id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.rounds ALTER COLUMN id SET DEFAULT nextval('public.rounds_id_seq'::regclass);
+
+
+--
 -- Name: teams id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -464,6 +516,14 @@ ALTER TABLE ONLY public.registrations
 
 ALTER TABLE ONLY public.rosters
     ADD CONSTRAINT rosters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: rounds rounds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.rounds
+    ADD CONSTRAINT rounds_pkey PRIMARY KEY (id);
 
 
 --
@@ -585,6 +645,20 @@ CREATE INDEX index_rosters_on_team_id ON public.rosters USING btree (team_id);
 
 
 --
+-- Name: index_rounds_on_format_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_rounds_on_format_type ON public.rounds USING btree (format_type);
+
+
+--
+-- Name: index_rounds_on_tournament_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_rounds_on_tournament_id ON public.rounds USING btree (tournament_id);
+
+
+--
 -- Name: index_timers_on_match_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -685,6 +759,14 @@ ALTER TABLE ONLY public.enrollments
 
 
 --
+-- Name: rounds fk_rails_f056708d50; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.rounds
+    ADD CONSTRAINT fk_rails_f056708d50 FOREIGN KEY (tournament_id) REFERENCES public.tournaments(id);
+
+
+--
 -- Name: timers fk_rails_f795a19d26; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -725,6 +807,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180720211051'),
 ('20180807051643'),
 ('20180807051922'),
-('20180807153114');
+('20180807153114'),
+('20180819185340');
 
 

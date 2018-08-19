@@ -6,6 +6,7 @@ class Tournament < ApplicationRecord
   has_many :enrollments
   has_many :teams, through: :enrollments
   has_many :matches
+  has_many :rounds
 
   monetize :price_cents, as: "fee"
 end
