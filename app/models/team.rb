@@ -14,4 +14,8 @@ class Team < ApplicationRecord
   def matches
     Match.where("team_one_id = ? OR team_two_id = ?", self.id, self.id)
   end
+
+  def self.add_filler_team
+    all.create(name: "Instant Mix")
+  end
 end
