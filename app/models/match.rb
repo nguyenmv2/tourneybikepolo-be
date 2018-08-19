@@ -57,7 +57,11 @@ class Match < ApplicationRecord
   #
   # Returns true when the match score is updated.
   def increment_score(team)
-    update_score(team.id, "+")
+    if team_one_id == team.id
+      update(team_one_score: team_one_score + 1)
+    elsif team_two_id == team.id
+      update(team_two_score: team_two_score + 1)
+    end
   end
 
   # Public: Removes one point from a team's score.
@@ -73,20 +77,16 @@ class Match < ApplicationRecord
   #
   # Returns true when the match score is updated.
   def decrement_score(team)
-    update_score(team.id, "-")
+    if team_one_id == team.id
+      update(team_one_score: team_one_score - 1)
+    elsif team_two_id == team.id
+      update(team_two_score: team_two_score - 1)
+    end
   end
 
   delegate :start, :pause, :resume, :stop, to: :timer
 
   private
-
-  def update_score(team_id, adjustment)
-    if team_one_id == team_id
-      update(team_one_score: team_one_score.send(adjustment.to_sym, 1))
-    elsif team_two_id == team_id
-      update(team_two_score: team_two_score.send(adjustment.to_sym, 1))
-    end
-  end
 
   def add_timer
     Timer.create(match_id: id, expires_at: duration.seconds.from_now)
