@@ -20,4 +20,13 @@ describe Team, type: :model do
       expect(team.matches).to match_array([m])
     end
   end
+
+  describe ".add_filler_team" do
+    let(:tournament) { create(:create_tournament_with_teams, team_count: 3) }
+
+    it "adds an additional team to even out the team count" do
+      expect { tournament.teams.add_filler_team }
+        .to change { tournament.teams.reload.size }.from(3).to(4)
+    end
+  end
 end

@@ -25,7 +25,7 @@ describe RoundRobinProcessor do
     end
 
     context "when there is an odd number of teams" do
-      let(:tournament) { build(:tournament_with_teams, team_count: 3) }
+      let(:tournament) { build(:stubbed_tournament_with_teams, team_count: 3) }
       let(:processor)  { RoundRobinProcessor.new(tournament.teams) }
       let(:filler_team) { build_stubbed(:team) }
 

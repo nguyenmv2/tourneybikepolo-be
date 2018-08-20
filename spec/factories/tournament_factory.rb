@@ -11,7 +11,7 @@ FactoryBot.define do
     team_cap Faker::Number.between(6, 30)
     fee Money.new(1500)
 
-    factory :tournament_with_teams do
+    factory :stubbed_tournament_with_teams do
       transient do
         team_count { 4 }
       end
@@ -19,6 +19,18 @@ FactoryBot.define do
       after(:build) do |tournament, evaluator|
         (0...evaluator.team_count).each do |i|
           tournament.teams << build_stubbed(:team)
+        end
+      end
+    end
+
+    factory :create_tournament_with_teams do
+      transient do
+        team_count { 4 }
+      end
+
+      after(:create) do |tournament, evaluator|
+        (0...evaluator.team_count).each do |i|
+          tournament.teams << create(:team)
         end
       end
     end
