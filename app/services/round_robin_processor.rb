@@ -4,11 +4,23 @@ class RoundRobinProcessor
   attr_accessor :teams
   attr_reader :rounds
 
+  # Public: Initialize the processor object.
+  #
+  # teams - A collection of teams.
   def initialize(teams)
     @rounds = {}
     @teams = teams
   end
 
+  # Public: Generates the bracket for all rounds.
+  #
+  # Examples
+  #
+  #   processor = RoundRobinProcessor.new(["A", "B", "C", "D", "E", "F"])
+  #   processor.generate_bracket
+  #   # => {1=>[["A", "F"], ["B", "E"], ["C", "D"]], ... ]}
+  #
+  # Returns a hash containing each round and it's matches.
   def generate_bracket
     teams.add_filler_team if teams.size.odd?
     round_count = teams.size - 1
