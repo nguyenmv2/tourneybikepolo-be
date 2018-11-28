@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :registration do
-    status "pending"
+    status { "pending" }
     team
     user
     enrollment
