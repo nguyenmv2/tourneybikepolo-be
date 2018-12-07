@@ -1,15 +1,16 @@
+version: "2"
 plugins:
+  rubocop:
+    enabled: true
+    config:
+      file: ".rubocop.yml"
   brakeman:
-		enabled: true
-	flog:
-		enabled: true
-		config:
-			score_threshold: 20.0
-	markdownlint:
-		enabled: true
-	reek:
-		enabled: true
-	rubocop:
-		enabled: true
-		config:
-			file: .rubocop.yml
+    enabled: true
+  flog:
+    enabled: true
+    config:
+      score_threshold: 20.0
+  markdownlint:
+    enabled: true
+  reek:
+    enabled: true
