@@ -25,6 +25,13 @@ Metrics/LineLength:
 
 Metrics/BlockLength:
   Exclude:
+    - 'db/**/*.rb'
+    - '**/*.rake'
+    - 'spec/**/*.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/**/*.rb'
     - '**/*.rake'
     - 'spec/**/*.rb'
 
@@ -39,6 +46,12 @@ Layout/SpaceAroundEqualsInParameterDefault:
 
 Style/BracesAroundHashParameters:
   EnforcedStyle: no_braces
+
+Style/Documentation:
+  Exclude:
+    - 'db/**/*.rb'
+    - '**/*.rake'
+    - 'spec/**/*.rb'
 
 Metrics/AbcSize:
   Max: 40
