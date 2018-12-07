@@ -9,7 +9,7 @@ module RoundRobin
     end
 
     def build
-      round_count.times.map { construct_round.build }
+      Array.new(round_count) { construct_round.build }
     end
 
     private
