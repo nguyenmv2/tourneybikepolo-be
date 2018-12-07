@@ -2,7 +2,7 @@
 
 module RoundRobin
   def self.schedule(team_ids)
-    team_ids.push nil if team_ids.size.odd?
+    team_ids.push 0 if team_ids.size.odd?
 
     generator = Generator.new(team_ids)
     generator.build
