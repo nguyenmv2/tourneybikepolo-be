@@ -16,7 +16,6 @@ describe "TournamentStaffs", type: :request do
         expect(response).to have_http_status(200)
       end
 
-
       it "returns the staff record" do
         expect(json_response_struct.id).to eq(staff.id)
       end
@@ -82,7 +81,6 @@ describe "TournamentStaffs", type: :request do
       let(:successful_params) { { role: 2 } }
 
       it "returns a successful 200 response" do
-
         patch tournament_staff_path(staff),
           headers: authenticated_header,
           params: { tournament_staff: successful_params }
@@ -91,9 +89,9 @@ describe "TournamentStaffs", type: :request do
       end
 
       it "successfully updates the tournament_staff with the params sent" do
-        expect {
+        expect do
           patch tournament_staff_path(staff), headers: authenticated_header, params: { tournament_staff: successful_params }
-        }.to change { staff.reload.role }.from(1).to(2)
+        end.to change { staff.reload.role }.from(1).to(2)
       end
     end
 
@@ -123,9 +121,9 @@ describe "TournamentStaffs", type: :request do
     it "successfully creates a tournament_staff with the params sent" do
       staff = create(:tournament_staff)
 
-      expect {
+      expect do
         delete tournament_staff_path(staff), headers: authenticated_header
-      }.to change { TournamentStaff.count }.from(1).to(0)
+      end.to change { TournamentStaff.count }.from(1).to(0)
     end
 
     it "returns a 404 response" do

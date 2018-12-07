@@ -89,9 +89,9 @@ describe "Teams", type: :request do
       end
 
       it "successfully updates the team with the params sent" do
-        expect {
+        expect do
           patch team_path(team), headers: authenticated_header, params: { team: successful_params }
-        }.to change { team.reload.name }.from("Team 1").to("Team 2")
+        end.to change { team.reload.name }.from("Team 1").to("Team 2")
       end
     end
 
@@ -134,9 +134,9 @@ describe "Teams", type: :request do
 
       it "successfully deletes a team with the params sent" do
         team = create(:team)
-        expect {
+        expect do
           delete team_path(team), headers: authenticated_header
-        }.to change { Team.count }.from(1).to(0)
+        end.to change { Team.count }.from(1).to(0)
       end
     end
 

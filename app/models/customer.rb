@@ -46,6 +46,7 @@ class Customer
   # Returns the stored Stripe::Customer id from the user table.
   def create
     return user.stripe_customer_id if user.stripe_customer_id?
+
     user.update(stripe_customer_id: customer.id)
     user.stripe_customer_id
   end

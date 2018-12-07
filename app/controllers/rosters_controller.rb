@@ -2,7 +2,7 @@
 
 class RostersController < ApplicationController
   before_action :authenticate_user
-  before_action :set_roster, only: [:update, :destroy]
+  before_action :set_roster, only: %i[update destroy]
 
   def create
     roster = Roster.new(roster_params)

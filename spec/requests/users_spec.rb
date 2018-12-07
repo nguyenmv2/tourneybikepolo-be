@@ -47,7 +47,7 @@ describe "Users", type: :request do
 
   describe "POST /users" do
     context "when correct params are sent" do
-      let(:successful_params) { { first: "Testy", last: "McTestsAlot", email: "testy@test.com", password: "taco123"} }
+      let(:successful_params) { { first: "Testy", last: "McTestsAlot", email: "testy@test.com", password: "taco123" } }
 
       before do
         post users_path, params: { user: successful_params }
@@ -66,7 +66,7 @@ describe "Users", type: :request do
 
     context "when wrong params are sent" do
       it "returns a unsuccessful 422 response" do
-        unsuccessful_params = { first: "Testy", last: "McTestsAlot", password: "taco123"}
+        unsuccessful_params = { first: "Testy", last: "McTestsAlot", password: "taco123" }
         post users_path, params: { user: unsuccessful_params }
 
         expect(response).to have_http_status(422)
@@ -89,9 +89,9 @@ describe "Users", type: :request do
       end
 
       it "successfully updates the user with the params sent" do
-        expect {
+        expect do
           patch user_path(user), headers: authenticated_header(user), params: { user: successful_params }
-        }.to change { user.reload.email }.from("old_email@test.com").to("new_email@test.com")
+        end.to change { user.reload.email }.from("old_email@test.com").to("new_email@test.com")
       end
     end
 
@@ -134,9 +134,9 @@ describe "Users", type: :request do
       it "successfully creates a user with the params sent" do
         user = create(:user)
 
-        expect {
+        expect do
           delete user_path(user), headers: authenticated_header(user)
-        }.to change { User.count }.from(1).to(0)
+        end.to change { User.count }.from(1).to(0)
       end
     end
 

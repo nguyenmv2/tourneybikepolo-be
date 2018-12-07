@@ -16,7 +16,7 @@ describe User, type: :model do
     it "returns a hash of user attributes" do
       u = build_stubbed(:user)
 
-      expect(u.payment_metadata).to eq({ user_id: u.id, first: u.first, last: u.last, phone: u.phone })
+      expect(u.payment_metadata).to eq(user_id: u.id, first: u.first, last: u.last, phone: u.phone)
     end
   end
 end

@@ -9,7 +9,7 @@ describe RegistrationsController, type: :routing do
     end
 
     it "routes to #create" do
-      expect(post:  "/registrations").to route_to("registrations#create")
+      expect(post: "/registrations").to route_to("registrations#create")
     end
 
     it "routes to #update via PUT" do

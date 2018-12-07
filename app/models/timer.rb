@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Timer < ApplicationRecord
-  STATUSES = %w(pending in_progress paused expired canceled).freeze
+  STATUSES = %w[pending in_progress paused expired canceled].freeze
   enum status: Hash[STATUSES.zip(STATUSES)].symbolize_keys
 
   belongs_to :match, dependent: :destroy

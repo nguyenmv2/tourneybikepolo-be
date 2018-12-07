@@ -87,9 +87,9 @@ RSpec.describe "Tournaments", type: :request do
       end
 
       it "successfully updates the tournament with the params sent" do
-        expect {
+        expect do
           patch tournament_path(tournament), headers: authenticated_header, params: { tournament: successful_params }
-        }.to change { tournament.reload.name }.from("Team 1").to("Team 2")
+        end.to change { tournament.reload.name }.from("Team 1").to("Team 2")
       end
     end
 
@@ -121,9 +121,9 @@ RSpec.describe "Tournaments", type: :request do
       it "successfully creates a tournament with the params sent" do
         tournament = create(:tournament)
 
-        expect {
+        expect do
           delete tournament_path(tournament), headers: authenticated_header
-        }.to change { Tournament.count }.from(1).to(0)
+        end.to change { Tournament.count }.from(1).to(0)
       end
     end
 

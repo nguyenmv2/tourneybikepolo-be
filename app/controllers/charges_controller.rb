@@ -23,6 +23,6 @@ class ChargesController < ApplicationController
   end
 
   def charge_params
-    params.permit(:tournament_id, :team_id, card: [:number, :exp_month, :exp_year, :cvc])
+    params.permit(:tournament_id, :team_id, card: %i[number exp_month exp_year cvc])
   end
 end

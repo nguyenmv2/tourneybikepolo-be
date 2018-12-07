@@ -12,6 +12,6 @@ class Team < ApplicationRecord
   validates :name, presence: true
 
   def matches
-    Match.where("team_one_id = ? OR team_two_id = ?", self.id, self.id)
+    Match.where("team_one_id = ? OR team_two_id = ?", id, id)
   end
 end

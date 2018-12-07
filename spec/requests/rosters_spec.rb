@@ -61,9 +61,9 @@ describe "Rosters", type: :request do
       end
 
       it "successfully updates the roster with the params sent" do
-        expect {
+        expect do
           patch roster_path(roster), headers: authenticated_header, params: { roster: successful_params }
-        }.to change { roster.reload.role }.from(1).to(2)
+        end.to change { roster.reload.role }.from(1).to(2)
       end
     end
 

@@ -2,7 +2,7 @@
 
 class RegistrationsController < ApplicationController
   before_action :authenticate_user
-  before_action :set_registration, only: [:show, :update, :destroy]
+  before_action :set_registration, only: %i[show update destroy]
 
   def show
     render json: @registration

@@ -85,9 +85,9 @@ describe "Registrations", type: :request do
     end
 
     it "successfully updates the registration with the params sent" do
-      expect {
+      expect do
         patch registration_path(registration), headers: authenticated_header, params: { registration: successful_params }
-      }.to change { registration.reload.status }.from("pending").to("succeeded")
+      end.to change { registration.reload.status }.from("pending").to("succeeded")
     end
   end
 
@@ -104,9 +104,9 @@ describe "Registrations", type: :request do
     it "successfully deletes the registration" do
       registration = create(:registration)
 
-      expect {
+      expect do
         delete registration_path(registration), headers: authenticated_header
-      }.to change { Registration.count }.from(1).to(0)
+      end.to change { Registration.count }.from(1).to(0)
     end
   end
 end

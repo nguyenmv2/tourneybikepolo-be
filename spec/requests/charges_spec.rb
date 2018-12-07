@@ -42,10 +42,11 @@ describe "Charges", type: :request do
       end
 
       it "updates the associated registration record to succeeded" do
-        expect { post tournament_team_charges_path(tournament, team),
-          headers: authenticated_header,
-          params: successful_params
-        }.to change { registration.status }.from("pending").to("succeeded")
+        expect do
+          post tournament_team_charges_path(tournament, team),
+            headers: authenticated_header,
+            params: successful_params
+        end.to change { registration.status }.from("pending").to("succeeded")
       end
     end
 
@@ -84,10 +85,11 @@ describe "Charges", type: :request do
       it "updates the associated registration record to failed" do
         StripeMock.prepare_card_error(:invalid_number)
 
-        expect { post tournament_team_charges_path(tournament, team),
-          headers: authenticated_header,
-          params: successful_params
-        }.to change { registration.status }.from("pending").to("failed")
+        expect do
+          post tournament_team_charges_path(tournament, team),
+            headers: authenticated_header,
+            params: successful_params
+        end.to change { registration.status }.from("pending").to("failed")
       end
     end
   end
