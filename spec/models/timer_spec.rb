@@ -6,13 +6,13 @@ RSpec.describe Timer, type: :model do
   it { should belong_to(:match).dependent(:destroy) }
 
   it do
-    should define_enum_for(:status).with(
+    should define_enum_for(:status).with_values(
       pending: "pending",
       in_progress: "in_progress",
       paused: "paused",
       expired: "expired",
       canceled: "canceled"
-    )
+    ).backed_by_column_of_type(:enum)
   end
 
   subject { create(:match, duration: 5.seconds.to_i).timer }
