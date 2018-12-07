@@ -5,14 +5,14 @@ require "rails_helper"
 describe RoundRobin do
   describe ".schedule" do
     context "when there is an even number of teams" do
-      let(:teams) { build_stubbed_list(:team, 4) }
+      let!(:teams) { build_stubbed_list(:team, 4) }
       let!(:team_ids) { teams.pluck(:id) }
       subject! { RoundRobin.schedule(team_ids) }
 
       it "should build the expected number of rounds in each group" do
         number_of_rounds = subject.select(&:present?).size
 
-        expect(number_of_rounds).to eq(3)
+        expect(number_of_rounds).to eq(teams.size - 1)
       end
 
       it "should include each team only once in every round" do
@@ -44,7 +44,7 @@ describe RoundRobin do
       it "should build the expected number of rounds in each group" do
         number_of_rounds = subject.select(&:present?).size
 
-        expect(number_of_rounds).to eq(3)
+        expect(number_of_rounds).to eq(teams.size)
       end
 
       it "should include each team only once in every round" do
