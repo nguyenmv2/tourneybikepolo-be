@@ -1,4 +1,44 @@
-inherit_gem:
-  rubocop-github:
-    - config/default.yml
-    - config/rails.yml
+AllCops:
+  TargetRubyVersion: 2.4
+
+Style/MultilineBlockChain:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  ConsistentQuotesInMultiline: true
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+Style/Lambda:
+  EnforcedStyle: literal
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/BlockLength:
+  Exclude:
+    - '**/*.rake'
+    - 'spec/**/*.rb'
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Layout/IndentHash:
+  EnforcedStyle: consistent
+
+Layout/SpaceAroundEqualsInParameterDefault:
+  EnforcedStyle: no_space
+
+Style/BracesAroundHashParameters:
+  EnforcedStyle: no_braces
+
+Metrics/AbcSize:
+  Max: 40

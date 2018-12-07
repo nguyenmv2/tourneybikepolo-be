@@ -195,8 +195,6 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.4.0)
-    rubocop-github (0.12.0)
-      rubocop (~> 0.59)
     ruby-graphviz (1.2.3)
     ruby-progressbar (1.10.0)
     ruby_dep (1.5.0)
@@ -256,7 +254,6 @@ DEPENDENCIES
   rails-erd
   rspec-rails
   rubocop
-  rubocop-github
   shoulda-matchers!
   sidekiq
   simplecov

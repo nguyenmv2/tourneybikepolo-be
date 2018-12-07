@@ -21,7 +21,6 @@ group :development, :test do
   gem "pry-rails"
   gem "rspec-rails"
   gem "rubocop"
-  gem "rubocop-github"
   gem "shoulda-matchers", git: "https://github.com/thoughtbot/shoulda-matchers.git", tag: "v4.0.0.rc1"
   gem "simplecov", require: false
   gem "stripe-ruby-mock", "~> 2.5.4", require: "stripe_mock"
