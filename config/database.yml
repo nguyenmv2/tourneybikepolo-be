@@ -9,7 +9,7 @@ development:
   username: postgres
   password:
   host: <%= ENV.fetch('PGHOST', '127.0.0.1') %>
-  port: <%= ENV.fetch('PGPORT', '32772') %>
+  port: <%= ENV.fetch('PGPORT', '5432') %>
   schema_search_path: myapp,sharedapp,public
   min_messages: notice
 
