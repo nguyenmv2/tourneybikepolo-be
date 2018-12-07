@@ -8,7 +8,7 @@ describe Registration, type: :model do
   it { should belong_to(:enrollment) }
   it do
     should define_enum_for(:status)
-      .with(failed: 0, succeeded: 1, pending: 2)
+      .with_values(failed: 0, succeeded: 1, pending: 2)
   end
 
   describe ".fetch" do
