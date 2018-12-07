@@ -5,37 +5,65 @@ require "rails_helper"
 describe RoundRobin do
   describe ".schedule" do
     context "when there is an even number of teams" do
-      let(:teams) { build_stubbed_list(:team, 24) }
+      let(:teams) { build_stubbed_list(:team, 4) }
       let!(:team_ids) { teams.pluck(:id) }
-      subject { RoundRobin.schedule(team_ids) }
+      subject! { RoundRobin.schedule(team_ids) }
 
       it "should build the expected number of rounds in each group" do
-        expect(subject.size).to eq(23)
+        number_of_rounds = subject.select(&:present?).size
+
+        expect(number_of_rounds).to eq(3)
       end
 
-      it "should pair every team with every other team once" do
+      it "should include each team only once in every round" do
         team_ids.each do |team_id|
-          games = games_scheduled(subject, team_id)
-          byes = byes_scheduled(subject)
+          first_round = subject.first.find { |game| game.include?(team_id) }
+          second_round = subject.second.find { |game| game.include?(team_id) }
+          third_round = subject.third.find { |game| game.include?(team_id) }
 
-          expect(games.size).to eq(23)
-          expect(byes.size).to eq(23)
+          expect(first_round).to include(team_id)
+          expect(first_round.sort).not_to eq(second_round.sort)
+          expect(first_round.sort).not_to eq(third_round.sort)
+
+          expect(second_round).to include(team_id)
+          expect(second_round.sort).not_to eq(first_round.sort)
+          expect(second_round.sort).not_to eq(third_round.sort)
+
+          expect(third_round).to include(team_id)
+          expect(third_round.sort).not_to eq(first_round.sort)
+          expect(third_round.sort).not_to eq(second_round.sort)
         end
       end
     end
 
     context "when there are an odd number of teams" do
-      let!(:teams) { build_stubbed_list(:team, 23) }
+      let!(:teams) { build_stubbed_list(:team, 3) }
       let!(:team_ids) { teams.pluck(:id) }
-      subject { RoundRobin.schedule(team_ids) }
+      subject! { RoundRobin.schedule(team_ids) }
 
-      it "should pair every team with every other team once with a bye round" do
-        team_ids.each do |team_id|
-          games = games_scheduled(subject, team_id)
-          byes = byes_scheduled(subject)
+      it "should build the expected number of rounds in each group" do
+        number_of_rounds = subject.select(&:present?).size
 
-          expect(games.size).to eq(23)
-          expect(byes.size).to eq(23)
+        expect(number_of_rounds).to eq(3)
+      end
+
+      it "should include each team only once in every round" do
+        (team_ids << 0).each do |team_id|
+          first_round = subject.first.find { |game| game.include?(team_id) }
+          second_round = subject.second.find { |game| game.include?(team_id) }
+          third_round = subject.third.find { |game| game.include?(team_id) }
+
+          expect(first_round).to include(team_id)
+          expect(first_round.sort).not_to eq(second_round.sort)
+          expect(first_round.sort).not_to eq(third_round.sort)
+
+          expect(second_round).to include(team_id)
+          expect(second_round.sort).not_to eq(first_round.sort)
+          expect(second_round.sort).not_to eq(third_round.sort)
+
+          expect(third_round).to include(team_id)
+          expect(third_round.sort).not_to eq(first_round.sort)
+          expect(third_round.sort).not_to eq(second_round.sort)
         end
       end
     end
