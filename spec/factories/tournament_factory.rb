@@ -10,5 +10,19 @@ FactoryBot.define do
     description { Faker::Lorem.paragraph }
     team_cap { Faker::Number.between(6, 30) }
     fee { Money.new(1500) }
+
+    trait :with_playing_spaces do
+      transient do
+        playing_spaces { 2 }
+      end
+
+      after(:stub) do |t, e|
+        build_stubbed_list :playing_space, e, tournament: t
+      end
+
+      after(:create) do |t, e|
+        create_list :playing_space, e, tournament: t
+      end
+    end
   end
 end
