@@ -20,6 +20,8 @@ group :development, :test do
   gem "faker"
   gem "pry-rails"
   gem "rspec-rails"
+  gem "rubocop"
+  gem "rubocop-github"
   gem "shoulda-matchers", git: "https://github.com/thoughtbot/shoulda-matchers.git", tag: "v4.0.0.rc1"
   gem "simplecov", require: false
   gem "stripe-ruby-mock", "~> 2.5.4", require: "stripe_mock"
@@ -28,8 +30,6 @@ end
 group :development do
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "rails-erd"
-  gem "rubocop"
-  gem "rubocop-github"
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
 end
