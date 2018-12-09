@@ -7,7 +7,7 @@ describe RoundRobin do
     context "when there is an even number of teams" do
       let!(:teams) { build_stubbed_list(:team, 4) }
       let!(:team_ids) { teams.pluck(:id) }
-      subject! { RoundRobin.schedule(team_ids) }
+      subject! { RoundRobin.schedule(team_ids: team_ids) }
 
       it "should build the expected number of rounds in each group" do
         number_of_rounds = subject.select(&:present?).size
@@ -39,7 +39,7 @@ describe RoundRobin do
     context "when there are an odd number of teams" do
       let!(:teams) { build_stubbed_list(:team, 3) }
       let!(:team_ids) { teams.pluck(:id) }
-      subject! { RoundRobin.schedule(team_ids) }
+      subject! { RoundRobin.schedule(team_ids: team_ids) }
 
       it "should build the expected number of rounds in each group" do
         number_of_rounds = subject.select(&:present?).size

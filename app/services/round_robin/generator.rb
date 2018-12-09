@@ -2,7 +2,7 @@
 
 module RoundRobin
   class Generator
-    def initialize(team_ids, team_count, pivot)
+    def initialize(team_ids:, team_count:, pivot:)
       @team_ids = team_ids
       @team_count = team_count
       @pivot = pivot
