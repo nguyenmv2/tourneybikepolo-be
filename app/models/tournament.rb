@@ -8,6 +8,7 @@ class Tournament < ApplicationRecord
   has_many :matches
   has_many :playing_spaces
   has_many :groups
+  has_many :time_slots
 
   monetize :price_cents, as: "fee"
 end

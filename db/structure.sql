@@ -280,6 +280,38 @@ ALTER SEQUENCE public.teams_id_seq OWNED BY public.teams.id;
 
 
 --
+-- Name: time_slots; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.time_slots (
+    id bigint NOT NULL,
+    "time" timestamp without time zone,
+    tournament_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: time_slots_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.time_slots_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: time_slots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.time_slots_id_seq OWNED BY public.time_slots.id;
+
+
+--
 -- Name: timers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -477,6 +509,13 @@ ALTER TABLE ONLY public.teams ALTER COLUMN id SET DEFAULT nextval('public.teams_
 
 
 --
+-- Name: time_slots id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.time_slots ALTER COLUMN id SET DEFAULT nextval('public.time_slots_id_seq'::regclass);
+
+
+--
 -- Name: timers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -574,6 +613,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.teams
     ADD CONSTRAINT teams_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: time_slots time_slots_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.time_slots
+    ADD CONSTRAINT time_slots_pkey PRIMARY KEY (id);
 
 
 --
@@ -693,6 +740,13 @@ CREATE INDEX index_rosters_on_team_id ON public.rosters USING btree (team_id);
 
 
 --
+-- Name: index_time_slots_on_tournament_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_time_slots_on_tournament_id ON public.time_slots USING btree (tournament_id);
+
+
+--
 -- Name: index_timers_on_match_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -742,6 +796,14 @@ ALTER TABLE ONLY public.groups
 
 ALTER TABLE ONLY public.playing_spaces
     ADD CONSTRAINT fk_rails_1f40cfa305 FOREIGN KEY (tournament_id) REFERENCES public.tournaments(id);
+
+
+--
+-- Name: time_slots fk_rails_24b27a1f5b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.time_slots
+    ADD CONSTRAINT fk_rails_24b27a1f5b FOREIGN KEY (tournament_id) REFERENCES public.tournaments(id);
 
 
 --
@@ -851,6 +913,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180807051922'),
 ('20180807153114'),
 ('20181213183915'),
-('20181213193750');
+('20181213193750'),
+('20181213195037');
 
 

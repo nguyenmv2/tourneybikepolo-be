@@ -9,6 +9,7 @@ describe Tournament, type: :model do
   it { should have_many(:teams).through(:enrollments) }
   it { should have_many(:playing_spaces) }
   it { should have_many(:groups) }
+  it { should have_many(:time_slots) }
 
   it { is_expected.to monetize(:price_cents).as(:fee) }
 end
