@@ -106,6 +106,38 @@ ALTER SEQUENCE public.matches_id_seq OWNED BY public.matches.id;
 
 
 --
+-- Name: playing_spaces; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.playing_spaces (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    tournament_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: playing_spaces_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.playing_spaces_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: playing_spaces_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.playing_spaces_id_seq OWNED BY public.playing_spaces.id;
+
+
+--
 -- Name: registrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -378,6 +410,13 @@ ALTER TABLE ONLY public.matches ALTER COLUMN id SET DEFAULT nextval('public.matc
 
 
 --
+-- Name: playing_spaces id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.playing_spaces ALTER COLUMN id SET DEFAULT nextval('public.playing_spaces_id_seq'::regclass);
+
+
+--
 -- Name: registrations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -448,6 +487,14 @@ ALTER TABLE ONLY public.enrollments
 
 ALTER TABLE ONLY public.matches
     ADD CONSTRAINT matches_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: playing_spaces playing_spaces_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.playing_spaces
+    ADD CONSTRAINT playing_spaces_pkey PRIMARY KEY (id);
 
 
 --
@@ -550,6 +597,13 @@ CREATE INDEX index_matches_on_tournament_id ON public.matches USING btree (tourn
 
 
 --
+-- Name: index_playing_spaces_on_tournament_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_playing_spaces_on_tournament_id ON public.playing_spaces USING btree (tournament_id);
+
+
+--
 -- Name: index_registrations_on_enrollment_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -618,6 +672,14 @@ CREATE INDEX index_tournament_staffs_on_user_id ON public.tournament_staffs USIN
 
 ALTER TABLE ONLY public.enrollments
     ADD CONSTRAINT fk_rails_1113cafab7 FOREIGN KEY (tournament_id) REFERENCES public.tournaments(id);
+
+
+--
+-- Name: playing_spaces fk_rails_1f40cfa305; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.playing_spaces
+    ADD CONSTRAINT fk_rails_1f40cfa305 FOREIGN KEY (tournament_id) REFERENCES public.tournaments(id);
 
 
 --
@@ -725,6 +787,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180720211051'),
 ('20180807051643'),
 ('20180807051922'),
-('20180807153114');
+('20180807153114'),
+('20181213183915');
 
 
