@@ -70,6 +70,38 @@ ALTER SEQUENCE public.enrollments_id_seq OWNED BY public.enrollments.id;
 
 
 --
+-- Name: groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.groups (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    tournament_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.groups_id_seq OWNED BY public.groups.id;
+
+
+--
 -- Name: matches; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -403,6 +435,13 @@ ALTER TABLE ONLY public.enrollments ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: groups id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.groups ALTER COLUMN id SET DEFAULT nextval('public.groups_id_seq'::regclass);
+
+
+--
 -- Name: matches id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -479,6 +518,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public.enrollments
     ADD CONSTRAINT enrollments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: groups groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.groups
+    ADD CONSTRAINT groups_pkey PRIMARY KEY (id);
 
 
 --
@@ -573,6 +620,13 @@ CREATE INDEX index_enrollments_on_team_id ON public.enrollments USING btree (tea
 --
 
 CREATE INDEX index_enrollments_on_tournament_id ON public.enrollments USING btree (tournament_id);
+
+
+--
+-- Name: index_groups_on_tournament_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_groups_on_tournament_id ON public.groups USING btree (tournament_id);
 
 
 --
@@ -672,6 +726,14 @@ CREATE INDEX index_tournament_staffs_on_user_id ON public.tournament_staffs USIN
 
 ALTER TABLE ONLY public.enrollments
     ADD CONSTRAINT fk_rails_1113cafab7 FOREIGN KEY (tournament_id) REFERENCES public.tournaments(id);
+
+
+--
+-- Name: groups fk_rails_1a66c2460d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.groups
+    ADD CONSTRAINT fk_rails_1a66c2460d FOREIGN KEY (tournament_id) REFERENCES public.tournaments(id);
 
 
 --
@@ -788,6 +850,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180807051643'),
 ('20180807051922'),
 ('20180807153114'),
-('20181213183915');
+('20181213183915'),
+('20181213193750');
 
 
