@@ -14,12 +14,8 @@ class RoundRobin < RoundBase
 
   def build
     match_count.times.each do
-      matches << create_match(teams.first, pivot)
-
-      (1...(team_count / 2)).each do |i|
-        matches << create_match(teams[i], teams[match_count - i])
-      end
-
+      create_first_match
+      create_later_matches
       teams.rotate!
     end
 
@@ -27,6 +23,18 @@ class RoundRobin < RoundBase
   end
 
   private
+
+  def create_first_match
+    matches << create_match(
+      teams.first, pivot
+    )
+  end
+
+  def create_later_matches
+    (1...(team_count / 2)).each do |i|
+      matches << create_match(teams[i], teams[match_count - i])
+    end
+  end
 
   attr_reader :teams, :pivot, :tournament, :team_count, :match_count
 end
